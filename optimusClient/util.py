@@ -20,9 +20,9 @@ def getCredentials():
 
 
 def checkJobsEqual(a, b):
-    return (a.Project == b.Project) and (a.Id == b.Id) and (a.Status == b.Status) and (
-        a.Coordinate == b.Coordinate) and (a.MetricValue == b.MetricValue) and (
-               a.Metadata == b.Metadata) and (a.Kind == b.Kind) and (a.Output == b.Output) and (a.Input == b.Input)
+    return (a.project == b.project) and (a.id == b.id) and (a.status == b.status) and (
+        a.coordinate == b.coordinate) and (a.metric_value == b.metric_value) and (
+               a.metadata == b.metadata) and (a.kind == b.kind) and (a.output == b.output) and (a.input == b.input)
 
 
 def initTestsConfig():
@@ -35,4 +35,10 @@ def initTestsConfig():
                 return _config_dict
             except yaml.YAMLError as exc:
                 print(exc)
+
+
 _config_dict = {"client_cert": "", "client_key": "", "ca_cert": "", "connect_to": "", "db_uri": ""}
+
+
+def getEnumValueByName(descriptor, name):
+    return descriptor.values_by_name[name].number
