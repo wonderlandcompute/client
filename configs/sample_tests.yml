@@ -1,0 +1,5 @@
+client_cert: /Users/sashab1/work/optimus-deploy/out/username.crt
+client_key: /Users/sashab1/work/optimus-deploy/out/username.key
+ca_cert: /Users/sashab1/work/optimus-deploy/out/optimus.crt
+connect_to: 127.0.0.1:50051
+db_uri: postgres://localhost/optimus?sslmode=disable

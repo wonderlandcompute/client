@@ -1,0 +1,9 @@
+setup.py
+optimusClient/__init__.py
+optimusClient/optimus_pb2.py
+optimusClient/optimus_pb2_grpc.py
+optimusClient.egg-info/PKG-INFO
+optimusClient.egg-info/SOURCES.txt
+optimusClient.egg-info/dependency_links.txt
+optimusClient.egg-info/requires.txt
+optimusClient.egg-info/top_level.txt
