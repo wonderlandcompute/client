@@ -39,6 +39,7 @@ wheels/
 .idea/
 vendor
 out/
+*pycache*
 
 #notebooks checkpoints
 .ipynb_checkpoints
