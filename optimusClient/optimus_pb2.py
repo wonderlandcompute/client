@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='optimus.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\roptimus.proto\"\xa4\x02\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x1b\n\x06status\x18\x03 \x01(\x0e\x32\x0b.Job.Status\x12\x12\n\ncoordinate\x18\x04 \x01(\t\x12\x14\n\x0cmetric_value\x18\x05 \x01(\t\x12\x10\n\x08metadata\x18\x06 \x01(\t\x12\r\n\x05input\x18\x07 \x01(\t\x12\x0e\n\x06output\x18\x08 \x01(\t\x12\x17\n\x04kind\x18\t \x01(\x0e\x32\t.Job.Kind\"I\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\"$\n\x04Kind\x12\t\n\x05POINT\x10\x00\x12\x08\n\x04\x44JOB\x10\x01\x12\x07\n\x03\x45TC\x10\x02\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"#\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r2\xf4\x01\n\x07Optimus\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x30\n\x12\x43reateMultipleJobs\x12\x0b.ListOfJobs\x1a\x0b.ListOfJobs\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\roptimus.proto\"\xf3\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x1b\n\x06status\x18\x03 \x01(\x0e\x32\x0b.Job.Status\x12\x12\n\ncoordinate\x18\x04 \x01(\t\x12\x14\n\x0cmetric_value\x18\x05 \x01(\t\x12\x10\n\x08metadata\x18\x06 \x01(\t\x12\r\n\x05input\x18\x07 \x01(\t\x12\x0e\n\x06output\x18\x08 \x01(\t\x12\x0c\n\x04kind\x18\t \x01(\t\"I\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"#\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r2\xf4\x01\n\x07Optimus\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x30\n\x12\x43reateMultipleJobs\x12\x0b.ListOfJobs\x1a\x0b.ListOfJobs\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x62\x06proto3')
 )
 
 
@@ -53,36 +53,10 @@ _JOB_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=199,
-  serialized_end=272,
+  serialized_start=188,
+  serialized_end=261,
 )
 _sym_db.RegisterEnumDescriptor(_JOB_STATUS)
-
-_JOB_KIND = _descriptor.EnumDescriptor(
-  name='Kind',
-  full_name='Job.Kind',
-  filename=None,
-  file=DESCRIPTOR,
-  values=[
-    _descriptor.EnumValueDescriptor(
-      name='POINT', index=0, number=0,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='DJOB', index=1, number=1,
-      options=None,
-      type=None),
-    _descriptor.EnumValueDescriptor(
-      name='ETC', index=2, number=2,
-      options=None,
-      type=None),
-  ],
-  containing_type=None,
-  options=None,
-  serialized_start=274,
-  serialized_end=310,
-)
-_sym_db.RegisterEnumDescriptor(_JOB_KIND)
 
 
 _JOB = _descriptor.Descriptor(
@@ -150,8 +124,8 @@ _JOB = _descriptor.Descriptor(
       options=None),
     _descriptor.FieldDescriptor(
       name='kind', full_name='Job.kind', index=8,
-      number=9, type=14, cpp_type=8, label=1,
-      has_default_value=False, default_value=0,
+      number=9, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
@@ -161,7 +135,6 @@ _JOB = _descriptor.Descriptor(
   nested_types=[],
   enum_types=[
     _JOB_STATUS,
-    _JOB_KIND,
   ],
   options=None,
   is_extendable=False,
@@ -170,7 +143,7 @@ _JOB = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=18,
-  serialized_end=310,
+  serialized_end=261,
 )
 
 
@@ -200,8 +173,8 @@ _LISTOFJOBS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=312,
-  serialized_end=344,
+  serialized_start=263,
+  serialized_end=295,
 )
 
 
@@ -231,8 +204,8 @@ _REQUESTWITHID = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=346,
-  serialized_end=373,
+  serialized_start=297,
+  serialized_end=324,
 )
 
 
@@ -262,14 +235,12 @@ _LISTJOBSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=375,
-  serialized_end=410,
+  serialized_start=326,
+  serialized_end=361,
 )
 
 _JOB.fields_by_name['status'].enum_type = _JOB_STATUS
-_JOB.fields_by_name['kind'].enum_type = _JOB_KIND
 _JOB_STATUS.containing_type = _JOB
-_JOB_KIND.containing_type = _JOB
 _LISTOFJOBS.fields_by_name['jobs'].message_type = _JOB
 DESCRIPTOR.message_types_by_name['Job'] = _JOB
 DESCRIPTOR.message_types_by_name['ListOfJobs'] = _LISTOFJOBS
@@ -313,8 +284,8 @@ _OPTIMUS = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=413,
-  serialized_end=657,
+  serialized_start=364,
+  serialized_end=608,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateJob',
