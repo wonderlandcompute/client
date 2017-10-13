@@ -26,7 +26,7 @@ def checkJobsEqual(a, b):
 
 
 def initTestsConfig():
-    config_path = os.getenv("OPTIMUS_TESTS_CONFIG")
+    config_path = os.getenv("DISNEYLAND_TESTS_CONFIG")
     if os.path.exists(config_path):
         with open(config_path, 'r') as stream:
             try:

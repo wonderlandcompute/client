@@ -3,10 +3,10 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(name="optimusClient",
+setup(name="disneylandClient",
       version='0.1',
-      description='optimus client',
+      description='disneyland client',
       long_description=open('README.md').read(),
-      author='The optimus contributors',
-      packages=["optimusClient"]
+      author='The disneyland contributors',
+      packages=["disneylandClient"]
       )
