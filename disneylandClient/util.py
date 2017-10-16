@@ -25,8 +25,7 @@ def checkJobsEqual(a, b):
                a.metadata == b.metadata) and (a.kind == b.kind) and (a.output == b.output) and (a.input == b.input)
 
 
-def initTestsConfig():
-    config_path = os.getenv("DISNEYLAND_TESTS_CONFIG")
+def initClientConfig(config_path):
     if os.path.exists(config_path):
         with open(config_path, 'r') as stream:
             try:
@@ -35,6 +34,10 @@ def initTestsConfig():
                 return _config_dict
             except yaml.YAMLError as exc:
                 print(exc)
+
+def initClientConfigFromEnv():
+    config_path = os.getenv("DISNEYLAND_TESTS_CONFIG")
+    return initClientConfig(config_path)
 
 
 _config_dict = {"client_cert": "", "client_key": "", "ca_cert": "", "connect_to": "", "db_uri": ""}
