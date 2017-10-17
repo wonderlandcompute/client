@@ -21,8 +21,7 @@ def getCredentials():
 
 def checkJobsEqual(a, b):
     return (a.project == b.project) and (a.id == b.id) and (a.status == b.status) and (
-        a.coordinate == b.coordinate) and (a.metric_value == b.metric_value) and (
-               a.metadata == b.metadata) and (a.kind == b.kind) and (a.output == b.output) and (a.input == b.input)
+        a.metadata == b.metadata) and (a.kind == b.kind) and (a.output == b.output) and (a.input == b.input)
 
 
 def initClientConfig(config_path):
@@ -35,13 +34,10 @@ def initClientConfig(config_path):
             except yaml.YAMLError as exc:
                 print(exc)
 
+
 def initClientConfigFromEnv():
     config_path = os.getenv("DISNEYLAND_TESTS_CONFIG")
     return initClientConfig(config_path)
 
 
 _config_dict = {"client_cert": "", "client_key": "", "ca_cert": "", "connect_to": "", "db_uri": ""}
-
-
-def getEnumValueByName(descriptor, name):
-    return descriptor.values_by_name[name].number
