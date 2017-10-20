@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='disneyland.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x10\x64isneyland.proto\"\xc9\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x0b.Job.Status\x12\r\n\x05input\x18\x05 \x01(\t\x12\x0e\n\x06output\x18\x06 \x01(\t\x12\x10\n\x08metadata\x18\x07 \x01(\t\"I\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"4\n\x15ListJobStatusResponse\x12\x1b\n\x06status\x18\x01 \x03(\x0e\x32\x0b.Job.Status\"5\n\x13ListJobsKindRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r\x12\x0c\n\x04kind\x18\x02 \x01(\t2\xcd\x01\n\nDisneyland\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12/\n\x08ListJobs\x12\x14.ListJobsKindRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x36\n\x0fPullPendingJobs\x12\x14.ListJobsKindRequest\x1a\x0b.ListOfJobs\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x10\x64isneyland.proto\"\xc9\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x0b.Job.Status\x12\r\n\x05input\x18\x05 \x01(\t\x12\x0e\n\x06output\x18\x06 \x01(\t\x12\x10\n\x08metadata\x18\x07 \x01(\t\"I\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"4\n\x15ListJobStatusResponse\x12\x1b\n\x06status\x18\x01 \x03(\x0e\x32\x0b.Job.Status\"B\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r\x12\x0c\n\x04kind\x18\x02 \x01(\t\x12\x0f\n\x07project\x18\x03 \x01(\t2\xc5\x01\n\nDisneyland\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x62\x06proto3')
 )
 
 
@@ -226,23 +226,30 @@ _LISTJOBSTATUSRESPONSE = _descriptor.Descriptor(
 )
 
 
-_LISTJOBSKINDREQUEST = _descriptor.Descriptor(
-  name='ListJobsKindRequest',
-  full_name='ListJobsKindRequest',
+_LISTJOBSREQUEST = _descriptor.Descriptor(
+  name='ListJobsRequest',
+  full_name='ListJobsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='how_many', full_name='ListJobsKindRequest.how_many', index=0,
+      name='how_many', full_name='ListJobsRequest.how_many', index=0,
       number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='kind', full_name='ListJobsKindRequest.kind', index=1,
+      name='kind', full_name='ListJobsRequest.kind', index=1,
       number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='project', full_name='ListJobsRequest.project', index=2,
+      number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -260,7 +267,7 @@ _LISTJOBSKINDREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=341,
-  serialized_end=394,
+  serialized_end=407,
 )
 
 _JOB.fields_by_name['status'].enum_type = _JOB_STATUS
@@ -271,7 +278,7 @@ DESCRIPTOR.message_types_by_name['Job'] = _JOB
 DESCRIPTOR.message_types_by_name['ListOfJobs'] = _LISTOFJOBS
 DESCRIPTOR.message_types_by_name['RequestWithId'] = _REQUESTWITHID
 DESCRIPTOR.message_types_by_name['ListJobStatusResponse'] = _LISTJOBSTATUSRESPONSE
-DESCRIPTOR.message_types_by_name['ListJobsKindRequest'] = _LISTJOBSKINDREQUEST
+DESCRIPTOR.message_types_by_name['ListJobsRequest'] = _LISTJOBSREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Job = _reflection.GeneratedProtocolMessageType('Job', (_message.Message,), dict(
@@ -302,12 +309,12 @@ ListJobStatusResponse = _reflection.GeneratedProtocolMessageType('ListJobStatusR
   ))
 _sym_db.RegisterMessage(ListJobStatusResponse)
 
-ListJobsKindRequest = _reflection.GeneratedProtocolMessageType('ListJobsKindRequest', (_message.Message,), dict(
-  DESCRIPTOR = _LISTJOBSKINDREQUEST,
+ListJobsRequest = _reflection.GeneratedProtocolMessageType('ListJobsRequest', (_message.Message,), dict(
+  DESCRIPTOR = _LISTJOBSREQUEST,
   __module__ = 'disneyland_pb2'
-  # @@protoc_insertion_point(class_scope:ListJobsKindRequest)
+  # @@protoc_insertion_point(class_scope:ListJobsRequest)
   ))
-_sym_db.RegisterMessage(ListJobsKindRequest)
+_sym_db.RegisterMessage(ListJobsRequest)
 
 
 
@@ -317,8 +324,8 @@ _DISNEYLAND = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=397,
-  serialized_end=602,
+  serialized_start=410,
+  serialized_end=607,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateJob',
@@ -343,7 +350,7 @@ _DISNEYLAND = _descriptor.ServiceDescriptor(
     full_name='Disneyland.ListJobs',
     index=2,
     containing_service=None,
-    input_type=_LISTJOBSKINDREQUEST,
+    input_type=_LISTJOBSREQUEST,
     output_type=_LISTOFJOBS,
     options=None,
   ),
@@ -361,7 +368,7 @@ _DISNEYLAND = _descriptor.ServiceDescriptor(
     full_name='Disneyland.PullPendingJobs',
     index=4,
     containing_service=None,
-    input_type=_LISTJOBSKINDREQUEST,
+    input_type=_LISTJOBSREQUEST,
     output_type=_LISTOFJOBS,
     options=None,
   ),
@@ -402,7 +409,7 @@ try:
           )
       self.ListJobs = channel.unary_unary(
           '/Disneyland/ListJobs',
-          request_serializer=ListJobsKindRequest.SerializeToString,
+          request_serializer=ListJobsRequest.SerializeToString,
           response_deserializer=ListOfJobs.FromString,
           )
       self.ModifyJob = channel.unary_unary(
@@ -412,7 +419,7 @@ try:
           )
       self.PullPendingJobs = channel.unary_unary(
           '/Disneyland/PullPendingJobs',
-          request_serializer=ListJobsKindRequest.SerializeToString,
+          request_serializer=ListJobsRequest.SerializeToString,
           response_deserializer=ListOfJobs.FromString,
           )
 
@@ -471,7 +478,7 @@ try:
         ),
         'ListJobs': grpc.unary_unary_rpc_method_handler(
             servicer.ListJobs,
-            request_deserializer=ListJobsKindRequest.FromString,
+            request_deserializer=ListJobsRequest.FromString,
             response_serializer=ListOfJobs.SerializeToString,
         ),
         'ModifyJob': grpc.unary_unary_rpc_method_handler(
@@ -481,7 +488,7 @@ try:
         ),
         'PullPendingJobs': grpc.unary_unary_rpc_method_handler(
             servicer.PullPendingJobs,
-            request_deserializer=ListJobsKindRequest.FromString,
+            request_deserializer=ListJobsRequest.FromString,
             response_serializer=ListOfJobs.SerializeToString,
         ),
     }
@@ -564,9 +571,9 @@ try:
     request_deserializers = {
       ('Disneyland', 'CreateJob'): Job.FromString,
       ('Disneyland', 'GetJob'): RequestWithId.FromString,
-      ('Disneyland', 'ListJobs'): ListJobsKindRequest.FromString,
+      ('Disneyland', 'ListJobs'): ListJobsRequest.FromString,
       ('Disneyland', 'ModifyJob'): Job.FromString,
-      ('Disneyland', 'PullPendingJobs'): ListJobsKindRequest.FromString,
+      ('Disneyland', 'PullPendingJobs'): ListJobsRequest.FromString,
     }
     response_serializers = {
       ('Disneyland', 'CreateJob'): Job.SerializeToString,
@@ -595,9 +602,9 @@ try:
     request_serializers = {
       ('Disneyland', 'CreateJob'): Job.SerializeToString,
       ('Disneyland', 'GetJob'): RequestWithId.SerializeToString,
-      ('Disneyland', 'ListJobs'): ListJobsKindRequest.SerializeToString,
+      ('Disneyland', 'ListJobs'): ListJobsRequest.SerializeToString,
       ('Disneyland', 'ModifyJob'): Job.SerializeToString,
-      ('Disneyland', 'PullPendingJobs'): ListJobsKindRequest.SerializeToString,
+      ('Disneyland', 'PullPendingJobs'): ListJobsRequest.SerializeToString,
     }
     response_deserializers = {
       ('Disneyland', 'CreateJob'): Job.FromString,

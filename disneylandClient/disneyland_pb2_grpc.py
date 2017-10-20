@@ -26,7 +26,7 @@ class DisneylandStub(object):
         )
     self.ListJobs = channel.unary_unary(
         '/Disneyland/ListJobs',
-        request_serializer=disneyland__pb2.ListJobsKindRequest.SerializeToString,
+        request_serializer=disneyland__pb2.ListJobsRequest.SerializeToString,
         response_deserializer=disneyland__pb2.ListOfJobs.FromString,
         )
     self.ModifyJob = channel.unary_unary(
@@ -36,7 +36,7 @@ class DisneylandStub(object):
         )
     self.PullPendingJobs = channel.unary_unary(
         '/Disneyland/PullPendingJobs',
-        request_serializer=disneyland__pb2.ListJobsKindRequest.SerializeToString,
+        request_serializer=disneyland__pb2.ListJobsRequest.SerializeToString,
         response_deserializer=disneyland__pb2.ListOfJobs.FromString,
         )
 
@@ -95,7 +95,7 @@ def add_DisneylandServicer_to_server(servicer, server):
       ),
       'ListJobs': grpc.unary_unary_rpc_method_handler(
           servicer.ListJobs,
-          request_deserializer=disneyland__pb2.ListJobsKindRequest.FromString,
+          request_deserializer=disneyland__pb2.ListJobsRequest.FromString,
           response_serializer=disneyland__pb2.ListOfJobs.SerializeToString,
       ),
       'ModifyJob': grpc.unary_unary_rpc_method_handler(
@@ -105,7 +105,7 @@ def add_DisneylandServicer_to_server(servicer, server):
       ),
       'PullPendingJobs': grpc.unary_unary_rpc_method_handler(
           servicer.PullPendingJobs,
-          request_deserializer=disneyland__pb2.ListJobsKindRequest.FromString,
+          request_deserializer=disneyland__pb2.ListJobsRequest.FromString,
           response_serializer=disneyland__pb2.ListOfJobs.SerializeToString,
       ),
   }

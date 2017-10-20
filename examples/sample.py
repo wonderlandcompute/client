@@ -1,7 +1,7 @@
 import grpc
 
 import disneylandClient.disneyland_pb2
-from disneylandClient.disneyland_pb2 import Job, RequestWithId, ListJobsKindRequest, DisneylandStub
+from disneylandClient.disneyland_pb2 import Job, RequestWithId, ListJobsRequest, DisneylandStub
 
 config_dict = disneylandClient.initClientConfigFromEnv()
 creds = disneylandClient.getCredentials()
@@ -21,7 +21,7 @@ disneylandClient.checkJobsEqual(created_job, read_job)
 print("success\n{0}".format(read_job))
 
 print("\tModify Job")
-created_job.status = Job.FAILED
+created_job.status = Job.PENDING
 created_job.metadata = "meta_test"
 created_job.kind = "docker"
 
@@ -32,17 +32,12 @@ print("\tCreate Job blank")
 created_job = stub.CreateJob(Job())
 print("success\n{0}".format(created_job))
 
-print("\tList Jobs")
-all_jobs = stub.ListJobs(ListJobsKindRequest())
-if len(all_jobs.jobs) > 0:
-    print("success\n{0}".format(all_jobs))
-
 print("\tList Jobs with params")
-all_jobs = stub.ListJobs(ListJobsKindRequest(how_many=2, kind='docker'))
+all_jobs = stub.ListJobs(ListJobsRequest(how_many=1, kind='docker', project="ship-shield"))
 if len(all_jobs.jobs) > 0:
     print("success\n{0}".format(all_jobs))
 
 print("\tPull Jobs with params")
-pulled_jobs = stub.PullPendingJobs(ListJobsKindRequest(how_many=2, kind='docker'))
-if len(pulled_jobs.jobs) == 2:
+pulled_jobs = stub.PullPendingJobs(ListJobsRequest(how_many=1, kind='docker'))
+if len(pulled_jobs.jobs) == 1:
     print("success\n{0}".format(pulled_jobs))
