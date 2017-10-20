@@ -9,5 +9,5 @@ setup(name="disneylandClient",
       long_description=open('README.md').read(),
       author='The disneyland contributors',
       packages=["disneylandClient"],
-      install_requires=["PyYAML"]
+      install_requires=["PyYAML", "grpcio-tools"]
       )
