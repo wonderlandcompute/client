@@ -36,7 +36,7 @@ def initClientConfig(config_path):
 
 
 def initClientConfigFromEnv():
-    config_path = os.getenv("DISNEYLAND_TESTS_CONFIG")
+    config_path = os.getenv("DISNEYLAND_CLIENT_CONFIG")
     return initClientConfig(config_path)
 
 
