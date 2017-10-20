@@ -8,5 +8,6 @@ setup(name="disneylandClient",
       description='disneyland client',
       long_description=open('README.md').read(),
       author='The disneyland contributors',
-      packages=["disneylandClient"]
+      packages=["disneylandClient"],
+      install_requires=["PyYAML"]
       )

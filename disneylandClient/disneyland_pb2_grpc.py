@@ -19,11 +19,6 @@ class DisneylandStub(object):
         request_serializer=disneyland__pb2.Job.SerializeToString,
         response_deserializer=disneyland__pb2.Job.FromString,
         )
-    self.CreateMultipleJobs = channel.unary_unary(
-        '/Disneyland/CreateMultipleJobs',
-        request_serializer=disneyland__pb2.ListOfJobs.SerializeToString,
-        response_deserializer=disneyland__pb2.ListOfJobs.FromString,
-        )
     self.GetJob = channel.unary_unary(
         '/Disneyland/GetJob',
         request_serializer=disneyland__pb2.RequestWithId.SerializeToString,
@@ -51,13 +46,6 @@ class DisneylandServicer(object):
   pass
 
   def CreateJob(self, request, context):
-    # missing associated documentation comment in .proto file
-    pass
-    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-    context.set_details('Method not implemented!')
-    raise NotImplementedError('Method not implemented!')
-
-  def CreateMultipleJobs(self, request, context):
     # missing associated documentation comment in .proto file
     pass
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -99,11 +87,6 @@ def add_DisneylandServicer_to_server(servicer, server):
           servicer.CreateJob,
           request_deserializer=disneyland__pb2.Job.FromString,
           response_serializer=disneyland__pb2.Job.SerializeToString,
-      ),
-      'CreateMultipleJobs': grpc.unary_unary_rpc_method_handler(
-          servicer.CreateMultipleJobs,
-          request_deserializer=disneyland__pb2.ListOfJobs.FromString,
-          response_serializer=disneyland__pb2.ListOfJobs.SerializeToString,
       ),
       'GetJob': grpc.unary_unary_rpc_method_handler(
           servicer.GetJob,
