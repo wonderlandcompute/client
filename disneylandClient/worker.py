@@ -2,7 +2,7 @@ from multiprocessing import Process
 from time import sleep
 
 import json
-from disneyland_pb2 import Job, RequestWithId, ListOfJobs, ListJobsRequest, DisneylandStub
+from .disneyland_pb2 import Job, RequestWithId, ListOfJobs, ListJobsRequest, DisneylandStub
 
 
 class Worker(object):
@@ -63,10 +63,10 @@ class Worker(object):
     def release_cpus(self, process_name):
         self.cpu_avail += self.cpus_per_job[process_name]
         self.cpus_per_job.pop(process_name, None)
-        print "Released cpu, available: ", self.cpu_avail
+        print("Released cpu, available: ", self.cpu_avail)
 
     def run(self):
-        while self.running:
+        while True:
             self.cleanup_processes()
 
             if self.cpu_avail <= 0:
@@ -82,6 +82,9 @@ class Worker(object):
                 )
                 jobs = pulled.jobs
             except BaseException:
+                jobs = []
+
+            if len(jobs) == 0:
                 self.sleep()
                 continue
 

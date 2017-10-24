@@ -3,7 +3,7 @@ import os
 import grpc
 import yaml
 
-from disneyland_pb2_grpc import DisneylandStub
+from .disneyland_pb2_grpc import DisneylandStub
 
 def new_client():
     default_path = os.path.join(os.environ.get("HOME"), ".disney/config.yml")
