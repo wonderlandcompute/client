@@ -6,8 +6,9 @@ except ImportError:
 setup(name="disneylandClient",
       version='0.1',
       description='disneyland client',
+      url="https://github.com/skygrid/pydisneyland",
       long_description=open('README.md').read(),
-      author='The disneyland contributors',
+      author='The Skygrid contributors',
       packages=["disneylandClient"],
-      install_requires=["PyYAML", "grpcio==1.4"]
+      install_requires=["PyYAML", "grpcio-tools==1.4", "protobuf"]
       )
