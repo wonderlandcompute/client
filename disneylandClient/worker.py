@@ -2,6 +2,7 @@ from multiprocessing import Process
 from time import sleep
 
 import json
+from .util import new_client
 from .disneyland_pb2 import Job, RequestWithId, ListOfJobs, ListJobsRequest, DisneylandStub
 
 
@@ -93,6 +94,6 @@ class Worker(object):
 
                 self.acquire_cpus(process_name, 1)
 
-                p = Process(name=process_name, target=self.do_job, args=(job,))
+                p = Process(name=process_name, target=self.do_job, args=(job, new_client()))
                 self.processes.append(p)
                 p.start()
