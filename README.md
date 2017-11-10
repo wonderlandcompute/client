@@ -20,7 +20,7 @@ Example: docker computation submission
 ---
 
 
-```python3
+```python
 import time
 import json
 
@@ -96,7 +96,7 @@ Example: parabola non-gradient optimisation
 
 Here we need two scripts. First does the optimisation computation:
 
-```python3
+```python
 import numpy as np
 from skopt import gp_minimize
 import time
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 And the worker script which computes function:
 
 
-```python3
+```python
 import numpy as np
 from skopt import gp_minimize
 import time
