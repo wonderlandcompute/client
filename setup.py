@@ -10,5 +10,5 @@ setup(name="disneylandClient",
       long_description=open('README.md').read(),
       author='The Skygrid contributors',
       packages=["disneylandClient"],
-      install_requires=["PyYAML", "grpcio-tools==1.4", "protobuf"]
+      install_requires=["PyYAML", "grpcio==1.4", "protobuf"]
       )

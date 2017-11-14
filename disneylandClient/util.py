@@ -5,9 +5,11 @@ import yaml
 
 from .disneyland_pb2_grpc import DisneylandStub
 
+
 def new_client():
     default_path = os.path.join(os.environ.get("HOME"), ".disney/config.yml")
     return new_client_from_path(default_path)
+
 
 def new_client_from_path(config_path):
     config = load_config(config_path)
@@ -32,7 +34,6 @@ def load_credentials(config):
     ]
     if not all(path_ok):
         raise ValueError("One of credentials files does not exist")
-
 
     root_cert = open(config.get("ca_cert"), 'rb').read()
     private_key = open(config.get("client_key"), 'rb').read()

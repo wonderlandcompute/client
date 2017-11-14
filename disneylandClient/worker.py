@@ -1,9 +1,7 @@
 from multiprocessing import Process
 from time import sleep
 
-import json
-from .util import new_client
-from .disneyland_pb2 import Job, RequestWithId, ListOfJobs, ListJobsRequest, DisneylandStub
+from . import Job, RequestWithId, ListJobsRequest, new_client
 
 
 class Worker(object):
@@ -18,16 +16,23 @@ class Worker(object):
         self.job_kind = job_kind
         self.sleep_time = sleep_time
         self.do_job = job_func
-
         self.cpu_avail = threads_num
         self.cpus_per_job = {}  # job_id -> needed_cpus
         self.processes = []
-
         self.running = False
+        self.stream = None
 
     def start(self):
         self.running = True
         self.run()
+
+    def init_streaming(self):
+        def gen():
+            while True:
+                yield ListJobsRequest(how_many=self.cpu_avail, kind=self.job_kind)
+                sleep(self.sleep_time)
+
+        self.stream = self.stub.BidiJobs(gen())
 
     def stop(self):
         self.running = False
@@ -40,11 +45,9 @@ class Worker(object):
         processes_snapshot = self.processes[:]
         for p in processes_snapshot:
             job_id = p.name.strip("job:")
-            
             job = self.stub.GetJob(RequestWithId(id=job_id))
             job.status = Job.FAILED
             self.stub.ModifyJob(job)
-            
 
     def sleep(self):
         sleep(self.sleep_time)
@@ -64,10 +67,12 @@ class Worker(object):
     def release_cpus(self, process_name):
         self.cpu_avail += self.cpus_per_job[process_name]
         self.cpus_per_job.pop(process_name, None)
-        print("Released cpu, available: ", self.cpu_avail)
+        print("Released cpu, available: {}".format(self.cpu_avail))
 
     def run(self):
+        Process(target=self.init_streaming()).start()
         while True:
+            jobs = []
             self.cleanup_processes()
 
             if self.cpu_avail <= 0:
@@ -75,13 +80,8 @@ class Worker(object):
                 continue
 
             try:
-                pulled = self.stub.PullPendingJobs(
-                    ListJobsRequest(
-                        how_many=self.cpu_avail,
-                        kind=self.job_kind
-                    )
-                )
-                jobs = pulled.jobs
+                for job in self.stream:
+                    jobs.append(job)
             except BaseException:
                 jobs = []
 
@@ -97,3 +97,4 @@ class Worker(object):
                 p = Process(name=process_name, target=self.do_job, args=(job, new_client()))
                 self.processes.append(p)
                 p.start()
+                self.sleep()
