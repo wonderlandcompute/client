@@ -16,23 +16,16 @@ class Worker(object):
         self.job_kind = job_kind
         self.sleep_time = sleep_time
         self.do_job = job_func
+
         self.cpu_avail = threads_num
         self.cpus_per_job = {}  # job_id -> needed_cpus
         self.processes = []
+
         self.running = False
-        self.stream = None
 
     def start(self):
         self.running = True
         self.run()
-
-    def init_streaming(self):
-        def gen():
-            while True:
-                yield ListJobsRequest(how_many=self.cpu_avail, kind=self.job_kind)
-                sleep(self.sleep_time)
-
-        self.stream = self.stub.BidiJobs(gen())
 
     def stop(self):
         self.running = False
@@ -45,6 +38,7 @@ class Worker(object):
         processes_snapshot = self.processes[:]
         for p in processes_snapshot:
             job_id = p.name.strip("job:")
+
             job = self.stub.GetJob(RequestWithId(id=job_id))
             job.status = Job.FAILED
             self.stub.ModifyJob(job)
@@ -70,9 +64,7 @@ class Worker(object):
         print("Released cpu, available: {}".format(self.cpu_avail))
 
     def run(self):
-        Process(target=self.init_streaming()).start()
         while True:
-            jobs = []
             self.cleanup_processes()
 
             if self.cpu_avail <= 0:
@@ -80,8 +72,13 @@ class Worker(object):
                 continue
 
             try:
-                for job in self.stream:
-                    jobs.append(job)
+                pulled = self.stub.PullPendingJobs(
+                    ListJobsRequest(
+                        how_many=self.cpu_avail,
+                        kind=self.job_kind
+                    )
+                )
+                jobs = pulled.jobs
             except BaseException:
                 jobs = []
 
@@ -97,4 +94,3 @@ class Worker(object):
                 p = Process(name=process_name, target=self.do_job, args=(job, new_client()))
                 self.processes.append(p)
                 p.start()
-                self.sleep()
