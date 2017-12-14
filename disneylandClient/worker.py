@@ -12,7 +12,6 @@ class Worker(object):
             job_func,
             threads_num=2,
             sleep_time=10):
-        self.stub = stub
         self.job_kind = job_kind
         self.sleep_time = sleep_time
         self.do_job = job_func
@@ -36,12 +35,13 @@ class Worker(object):
         self.cleanup_processes()
         self.stop()
         processes_snapshot = self.processes[:]
+        stub = new_client()
         for p in processes_snapshot:
             job_id = p.name.strip("job:")
 
-            job = self.stub.GetJob(RequestWithId(id=job_id))
+            job = stub.GetJob(RequestWithId(id=job_id))
             job.status = Job.FAILED
-            self.stub.ModifyJob(job)
+            stub.ModifyJob(job)
 
     def sleep(self):
         sleep(self.sleep_time)
@@ -72,7 +72,8 @@ class Worker(object):
                 continue
 
             try:
-                pulled = self.stub.PullPendingJobs(
+                stub = new_client()
+                pulled = stub.PullPendingJobs(
                     ListJobsRequest(
                         how_many=self.cpu_avail,
                         kind=self.job_kind
