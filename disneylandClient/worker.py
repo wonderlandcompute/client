@@ -1,7 +1,25 @@
-from multiprocessing import Process
+from multiprocessing import Process, Event
 from time import sleep
 
 from . import Job, RequestWithId, ListJobsRequest, new_client
+
+
+class WorkerProcess:
+    def __init__(self, job, job_func, args_list):
+        self._finished = Event()
+
+        self.job = job
+        self.process_name = 'job:{}'.format(self.job.id)
+        self.work_process = Process(
+            name=self.process_name,
+            target=job_func,
+            args=tuple(args_list + [self._finished])
+        )
+        self.work_process.start()
+
+    @property
+    def finished(self):
+        return self._finished.is_set()
 
 
 class Worker(object):
@@ -29,7 +47,7 @@ class Worker(object):
     def stop(self):
         self.running = False
         for p in self.processes:
-            p.terminate()
+            p.worker_process.terminate()
 
     def fail_all(self):
         self.cleanup_processes()
@@ -37,11 +55,8 @@ class Worker(object):
         processes_snapshot = self.processes[:]
         stub = new_client()
         for p in processes_snapshot:
-            job_id = p.name.strip("job:")
-
-            job = stub.GetJob(RequestWithId(id=job_id))
-            job.status = Job.FAILED
-            stub.ModifyJob(job)
+            p.job.status = Job.FAILED
+            stub.ModifyJob(p.job)
 
     def sleep(self):
         sleep(self.sleep_time)
@@ -49,18 +64,18 @@ class Worker(object):
     def cleanup_processes(self):
         processes_snapshot = self.processes[:]
         for p in processes_snapshot:
-            if not p.is_alive():
+            if p.finished:
                 self.processes.remove(p)
-                self.release_cpus(p.name)
+                self.release_cpus(p.job.id)
 
-    def acquire_cpus(self, process_name, ncpus):
+    def acquire_cpus(self, job_id, ncpus):
         ncpus = int(ncpus)
-        self.cpus_per_job[process_name] = ncpus
+        self.cpus_per_job[job_id] = ncpus
         self.cpu_avail -= ncpus
 
-    def release_cpus(self, process_name):
-        self.cpu_avail += self.cpus_per_job[process_name]
-        self.cpus_per_job.pop(process_name, None)
+    def release_cpus(self, job_id):
+        self.cpu_avail += self.cpus_per_job[job_id]
+        self.cpus_per_job.pop(job_id, None)
         print("Released cpu, available: {}".format(self.cpu_avail))
 
     def run(self):
@@ -88,10 +103,11 @@ class Worker(object):
                 continue
 
             for job in jobs:
-                process_name = 'job:{}'.format(job.id)
+                self.acquire_cpus(job.id, 1)
 
-                self.acquire_cpus(process_name, 1)
-
-                p = Process(name=process_name, target=self.do_job, args=(job, new_client()))
+                p = WorkerProcess(
+                    job=job,
+                    job_func=self.do_job,
+                    args_list=[job, new_client()]
+                )
                 self.processes.append(p)
-                p.start()
