@@ -1,7 +1,7 @@
 from multiprocessing import Process, Event
 from time import sleep
 
-from . import Job, RequestWithId, ListJobsRequest, new_client
+from . import Job, ListJobsRequest, new_client
 
 
 class WorkerProcess:
@@ -92,7 +92,8 @@ class Worker(object):
                     ListJobsRequest(
                         how_many=self.cpu_avail,
                         kind=self.job_kind
-                    )
+                    ),
+                    timeout=10
                 )
                 jobs = pulled.jobs
             except BaseException:
@@ -108,6 +109,6 @@ class Worker(object):
                 p = WorkerProcess(
                     job=job,
                     job_func=self.do_job,
-                    args_list=[job, new_client()]
+                    args_list=[job]
                 )
                 self.processes.append(p)

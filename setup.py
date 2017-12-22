@@ -4,7 +4,7 @@ except ImportError:
     from distutils.core import setup
 
 setup(name="disneylandClient",
-      version='0.1.2',
+      version='0.1.3',
       description='disneyland client',
       url="https://github.com/skygrid/pydisneyland",
       long_description=open('README.md').read(),
