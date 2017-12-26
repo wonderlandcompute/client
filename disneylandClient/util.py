@@ -14,7 +14,14 @@ def new_client():
 def new_client_from_path(config_path):
     config = load_config(config_path)
     creds = load_credentials(config)
-    channel = grpc.secure_channel(config.get("connect_to"), creds)
+    channel = grpc.secure_channel(
+        config.get("connect_to"),
+        creds,
+        options=(
+            ('grpc.max_send_message_length', 1024 * 1024 * 1024),
+            ('grpc.max_receive_message_length', 1024 * 1024 * 1024),
+        )
+    )
     return DisneylandStub(channel)
 
 
