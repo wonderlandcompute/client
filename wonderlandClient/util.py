@@ -7,7 +7,7 @@ from .wonderland_pb2_grpc import wonderlandStub
 
 
 def new_client():
-    default_path = os.path.join(os.environ.get("HOME"), ".disney/config.yml")
+    default_path = os.path.join(os.environ.get("HOME"), ".wonder/config.yml")
     return new_client_from_path(default_path)
 
 

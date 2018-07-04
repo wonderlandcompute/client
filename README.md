@@ -1,9 +1,9 @@
 Installation
 ---
 
-You can install pydisneyland for python3 like this: `pip install git+https://github.com/skygrid/pydisneyland.git`.
+You can install pywonderland for python3 like this: `pip install git+https://github.com/skygrid/pydisneyland.git`.
 
-To use client, you'll need to create `.disney` directory in your home dir, and put following files there:
+To use client, you'll need to create `.wonder` directory in your home dir, and put following files there:
 
 * Server CA certificate, user's private key and certificate — those 3 can be obtained from system administrator
 * File named `config.yml` with contenst like the following:
@@ -24,7 +24,7 @@ Example: docker computation submission
 import time
 import json
 
-from disneylandClient import (
+from wonderlandClient import (
     new_client,
     Job,
     RequestWithId,
@@ -102,7 +102,7 @@ from skopt import gp_minimize
 import time
 
 import grpc
-from disneylandClient import (
+from wonderlandClient import (
     new_client,
     Job,
     RequestWithId
@@ -168,7 +168,7 @@ import time
 
 import grpc
 
-from disneylandClient import (
+from wonderlandClient import (
     new_client,
     Job,
     RequestWithId,
@@ -182,7 +182,7 @@ stub = new_client()
 
 def process_job(job):
     job.output = str(float(job.input)**2)
-    job.status = disneylandClient.disneyland_pb2.Job.COMPLETED
+    job.status = wonderlandClient.wonderland_pb2.Job.COMPLETED
     stub.ModifyJob(job)
 
 
@@ -198,4 +198,4 @@ if __name__ == '__main__':
 
 ```
 
-There is also disneyClient.worker module which has userful `Worker` class.
+There is also wonderClient.worker module which has userful `Worker` class.

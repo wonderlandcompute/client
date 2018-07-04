@@ -6,7 +6,7 @@ except ImportError:
 setup(name="wonderlandClient",
       version='0.1.4',
       description='wonderland client',
-      url="https://github.com/skygrid/pydisneyland",
+      url="https://github.com/wonderlandcompute/client",
       long_description=open('README.md').read(),
       author='The Skygrid contributors',
       packages=["wonderlandClient"],
