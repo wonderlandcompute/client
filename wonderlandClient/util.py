@@ -3,7 +3,7 @@ import os
 import grpc
 import yaml
 
-from .disneyland_pb2_grpc import DisneylandStub
+from .wonderland_pb2_grpc import wonderlandStub
 
 
 def new_client():
@@ -22,7 +22,7 @@ def new_client_from_path(config_path):
             ('grpc.max_receive_message_length', 1024 * 1024 * 1024),
         )
     )
-    return DisneylandStub(channel)
+    return wonderlandStub(channel)
 
 
 def load_config(config_path):

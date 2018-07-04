@@ -3,12 +3,12 @@ try:
 except ImportError:
     from distutils.core import setup
 
-setup(name="disneylandClient",
+setup(name="wonderlandClient",
       version='0.1.4',
-      description='disneyland client',
+      description='wonderland client',
       url="https://github.com/skygrid/pydisneyland",
       long_description=open('README.md').read(),
       author='The Skygrid contributors',
-      packages=["disneylandClient"],
+      packages=["wonderlandClient"],
       install_requires=["PyYAML", "grpcio==1.4", "protobuf"]
       )
