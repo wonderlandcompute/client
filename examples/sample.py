@@ -1,11 +1,11 @@
 import os
 
-import disneylandClient.disneyland_pb2
-from disneylandClient.disneyland_pb2 import Job, RequestWithId, ListJobsRequest
+import wonderlandClient.wonderland_pb2
+from wonderlandClient.wonderland_pb2 import Job, RequestWithId, ListJobsRequest
 
 print("\tUser:")
 
-user_client = disneylandClient.new_client()
+user_client = wonderlandClient.new_client()
 
 print("\tCreate Job blank")
 blank_job = user_client.CreateJob(Job())
@@ -26,7 +26,7 @@ print("success\n{0}".format(created_job))
 
 print("\tGet Job")
 read_job = user_client.GetJob(RequestWithId(id=created_job.id))
-disneylandClient.check_jobs_equal(created_job, read_job)
+wonderlandClient.check_jobs_equal(created_job, read_job)
 print("success\n{0}".format(read_job))
 
 print("\tList Jobs with params")
@@ -49,7 +49,7 @@ print("success\n{0}".format(blank_job))
 
 print("\tWorker:")
 
-worker_client = disneylandClient.new_client_from_path(os.path.join(os.environ.get("HOME"), ".disney/docker.yml"))
+worker_client = wonderlandClient.new_client_from_path(os.path.join(os.environ.get("HOME"), ".disney/docker.yml"))
 print("\tGet Job")
 read_job = worker_client.GetJob(RequestWithId(id=created_job.id))
 print("success\n{0}".format(read_job))
