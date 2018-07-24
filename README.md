@@ -168,6 +168,7 @@ import time
 
 import grpc
 
+import wonderlandClient
 from wonderlandClient import (
     new_client,
     Job,
