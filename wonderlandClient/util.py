@@ -2,12 +2,15 @@ import os
 
 import grpc
 import yaml
+from pathlib import Path
 
-from .wonderland_pb2_grpc import wonderlandStub
+from .wonderland_pb2_grpc import WonderlandStub
 
 
 def new_client():
-    default_path = os.path.join(os.environ.get("HOME"), ".wonder/config.yml")
+    default_path = os.environ.get("WONDERCOMPUTECONFIG")
+    if default_path is None:
+        raise Exception("WONDERCOMPUTECONFIG environment variable wasn't set")
     return new_client_from_path(default_path)
 
 
@@ -22,7 +25,7 @@ def new_client_from_path(config_path):
             ('grpc.max_receive_message_length', 1024 * 1024 * 1024),
         )
     )
-    return wonderlandStub(channel)
+    return WonderlandStub(channel)
 
 
 def load_config(config_path):
@@ -34,21 +37,21 @@ def load_config(config_path):
 
 
 def load_credentials(config):
+    ca_cert = Path(config.get("ca_cert")).expanduser()
+    client_key = Path(config.get("client_key")).expanduser()
+    client_cert = Path(config.get("client_cert")).expanduser()
     path_ok = [
-        os.path.exists(config.get("ca_cert")),
-        os.path.exists(config.get("client_key")),
-        os.path.exists(config.get("client_cert")),
+        ca_cert.exists(),
+        client_key.exists(),
+        client_cert.exists(),
     ]
     if not all(path_ok):
         raise ValueError("One of credentials files does not exist")
 
-    root_cert = open(config.get("ca_cert"), 'rb').read()
-    private_key = open(config.get("client_key"), 'rb').read()
-    cert_chain = open(config.get("client_cert"), 'rb').read()
     credentials = grpc.ssl_channel_credentials(
-        root_certificates=root_cert,
-        private_key=private_key,
-        certificate_chain=cert_chain
+        root_certificates=ca_cert.read_bytes(),
+        private_key=client_key.read_bytes(),
+        certificate_chain=client_cert.read_bytes()
     )
 
     return credentials

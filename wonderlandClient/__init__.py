@@ -5,11 +5,11 @@ from .wonderland_pb2 import (
     ListJobsRequest
 )
 
-from .wonderland_pb2_grpc import (
-    wonderlandServicer,
-    wonderlandStub,
-    add_wonderlandServicer_to_server
-)
+# from .wonderland_pb2_grpc import (
+#     wonderlandServicer,
+#     wonderlandStub,
+#     add_wonderlandServicer_to_server
+# )
 
 from .util import (
     new_client,
