@@ -10,5 +10,5 @@ setup(name="wonderlandClient",
       long_description=open('README.md').read(),
       author='The Skygrid contributors',
       packages=["wonderlandClient"],
-      install_requires=["PyYAML", "grpcio==1.4", "protobuf"]
+      install_requires=["PyYAML", "grpcio==1.4", "protobuf", "azure"]
       )

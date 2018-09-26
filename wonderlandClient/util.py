@@ -3,6 +3,9 @@ import os
 import grpc
 import yaml
 from pathlib import Path
+import numpy as np
+from modelgym.utils import XYCDataset
+from sklearn.datasets import make_classification
 
 from .wonderland_pb2_grpc import WonderlandStub
 
@@ -60,3 +63,21 @@ def load_credentials(config):
 def check_jobs_equal(a, b):
     return (a.project == b.project) and (a.id == b.id) and (a.status == b.status) and (
         a.metadata == b.metadata) and (a.kind == b.kind) and (a.output == b.output) and (a.input == b.input)
+
+def generate_data(file,
+                  n_samples=1000,
+                  n_features=20,
+                  n_informative=10,
+                  n_classes=2):
+    X, y = make_classification(n_samples=n_samples,
+                               n_features=n_features,
+                               n_informative=n_informative,
+                               n_classes=n_classes)
+    dataset = XYCDataset(X, y)
+    y = np.array([y])
+    data = np.concatenate((X, y.T), axis=1)
+    np.savetxt(file, data,
+               fmt='%.2f',
+               header=','.join([str(x) for x in range(n_features)] + ['y']),
+               delimiter=',')
+    return dataset
