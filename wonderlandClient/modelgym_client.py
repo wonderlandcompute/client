@@ -107,10 +107,7 @@ class ModelGymClient:
         job = Job(input=json.dumps({
             "model_path": str(model_path),
             "data_path": str(data_path)}),
-            kind="hyperopt",
-            status=wonderland_pb2.Job.COMPLETED,
-            output=json.dumps({'output': 'imusinov/model-test/output.json',
-                               'result_model_path': 'imusinov/model-test/model.pickle'}))
+            kind="hyperopt")
         job = self.stub.CreateJob(job)
         # output_file = self.project_root.parent / model_path / MODELGYM_CONFIG["output_file"]
         # pickled_model_path = self.project_root.parent / model_path / MODELGYM_CONFIG["model_pickled"]
@@ -131,7 +128,9 @@ class ModelGymClient:
             for id in job_id_list:
                 job = self.stub.GetJob(RequestWithId(id=id))
                 job_compeleted[id] = job.status
-            if wonderland_pb2.Job.PENDING not in job_compeleted.values():
+            if not any(s in job_compeleted.values() for s in (wonderland_pb2.Job.PENDING,
+                                                              wonderland_pb2.Job.RUNNING,
+                                                              wonderland_pb2.Job.PULLED)):
                 break
 
         results = {}

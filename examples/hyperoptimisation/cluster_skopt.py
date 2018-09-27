@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[8]:
+# In[1]:
 
 
 from modelgym.models import CtBClassifier, LGBMClassifier
@@ -21,7 +21,7 @@ from modelgym.metrics import Accuracy, RocAuc, F1
 import math
 
 
-# In[9]:
+# In[2]:
 
 
 client = ModelGymClient()
@@ -29,7 +29,7 @@ for param, val in client.config.items():
         print(param+":", val)
 
 
-# In[10]:
+# In[3]:
 
 
 from wonderlandClient import generate_data
@@ -37,7 +37,7 @@ tmp_file_path = Path("~/repo-storage-test/test/DATA/temp_data_145earu.csv").expa
 generate_data(tmp_file_path)
 
 
-# In[11]:
+# In[4]:
 
 
 data = load_breast_cancer()
@@ -51,7 +51,7 @@ np.savetxt(file, dataset,
            delimiter=',')
 
 
-# In[12]:
+# In[5]:
 
 
 catboost_space = [Integer(low=100, high=500, name='iterations'),
@@ -67,7 +67,7 @@ model_ctb = ModelSpace(CtBClassifier,
                    space_update=False)
 
 
-# In[13]:
+# In[6]:
 
 
 lgbm_space = [Real(low=math.exp(-7), high=1, prior='log-uniform', name='learning_rate'),
@@ -84,7 +84,7 @@ model_lgbm = ModelSpace(LGBMClassifier,
                    space_update=False)
 
 
-# In[14]:
+# In[17]:
 
 
 trainer = GPTrainer(model_lgbm)
@@ -93,9 +93,14 @@ best = trainer.crossval_optimize_params(RocAuc(), tmp_file_path, cv=3,
                                         verbose=False, workers=1, client=client)
 
 
-# In[ ]:
+# In[15]:
 
 
 print(trainer.get_best_results())
+
+
+# In[16]:
+
+
 best_model = trainer.get_best_model()
 
