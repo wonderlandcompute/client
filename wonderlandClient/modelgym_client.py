@@ -129,23 +129,28 @@ class ModelGymClient:
         self.stub.GetJob(RequestWithId(id=job.id))
         return job.id
 
-    def gather_results(self, job_id_list):
+    def gather_results(self, job_id_list, timeout):
         job_compeleted = {job_id: wonderland_pb2.Job.PENDING for job_id in job_id_list}
         ##add timeout
+        deadline = time.time() + timeout
         while True:
             time.sleep(5)
             for id in job_id_list:
                 job = self.stub.GetJob(RequestWithId(id=id))
                 job_compeleted[id] = job.status
-            if not any(s in job_compeleted.values() for s in (wonderland_pb2.Job.PENDING,
+            if time.time() > deadline or not any(s in job_compeleted.values() for s in (wonderland_pb2.Job.PENDING,
                                                               wonderland_pb2.Job.RUNNING,
                                                               wonderland_pb2.Job.PULLED)):
                 break
 
-        results = {}
-        for id in job_id_list:
-            results[id] = {}
+        results = []
+        for i, id in enumerate(job_id_list):
             job = self.stub.GetJob(RequestWithId(id=id))
+            if job.status == wonderland_pb2.Job.COMPLETED:
+                results += [{}]
+            else:
+                results.append(None)
+                continue
             file_list = json.loads(job.output)
             for file, path in file_list.items():
                 self.file_service.get_file_to_path(share_name=self.afs_share,
@@ -154,9 +159,9 @@ class ModelGymClient:
                                                    file_path=str(self.project_root / path))
                 if file == 'output':
                     with open(self.project_root / path, "r") as f:
-                        results[id]['output'] = json.load(f)
+                        results[i]['output'] = json.load(f)
                 if file == 'result_model_path':
-                    results[id]['result_model_path'] = self.project_root / path
+                    results[i]['result_model_path'] = self.project_root / path
         return results
 
     # def make_pipe(self, model_folder, data_folder):
