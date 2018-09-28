@@ -1,4 +1,0 @@
-client_cert: /Users/aleksandrsivcov/go/src/gitlab.com/disney/configs/127.0.0.1.crt
-client_key: /Users/aleksandrsivcov/go/src/gitlab.com/disney/configs/127.0.0.1.key
-ca_cert: /Users/aleksandrsivcov/go/src/gitlab.com/disney/configs/wd.crt
-connect_to: 127.0.0.1:50051
