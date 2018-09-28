@@ -56,11 +56,12 @@ class ModelGymClient:
             self.project_root = project_root
             self.project_name = Path(self.project_root.parts[-1])
         else:
-            raise NotADirectoryError("LOCAL_PROJECT_ROOT folder doesn't exist ! Check Azure File Storage mount")
-        if (self.project_root / self.config["user"]).is_dir():
+            raise NotADirectoryError("LOCAL_PROJECT_ROOT folder doesn't exist")
+        user_folder = self.project_root / self.config["user"]
+        if user_folder.is_dir():
             self.user = self.config["user"]
         else:
-            raise NotADirectoryError("USER folder doesn't exist ! Check Azure File Storage mount")
+            user_folder.mkdir(parents=True, exist_ok=True)
 
         # self.stub = new_client()
         self.file_service = FileService(account_name=self.config['azurefs_acc_name'],
@@ -77,6 +78,14 @@ class ModelGymClient:
                                                 self.config["max_msg_size_megabytes"]),
                                            ))
         self.stub = wonderland_pb2_grpc.WonderlandStub(self.channel)
+        self.check_user()
+
+    def check_user(self):
+        list_folder = self.file_service.list_directories_and_files(self.afs_share)
+        for folder in list_folder:
+            if self.user == folder:
+                return True
+        self.file_service.create_directory(share_name=self.afs_share, directory_name=self.user, )
 
     def __get_client_transport_credentials(self, client_cert_path, client_key_path, ca_cert_path):
         client_cert_path = Path(client_cert_path).expanduser()
@@ -217,7 +226,7 @@ class ModelGymClient:
         """
         checksum = get_data_hash(data_path)[:10]
 
-        list_folder = self.file_service.list_directories_and_files(self.afs_share)
+        list_folder = self.file_service.list_directories_and_files(self.afs_share, directory_name="DATA")
         for folder in list_folder:
             if checksum == folder.name[-10:]:
                 logging.info("Folder for data already exist!")
