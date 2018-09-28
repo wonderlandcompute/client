@@ -201,51 +201,48 @@ class ModelGymClient:
 
     def send_model(self, model_info):
         folder = "model-" + ''.join([random.choice(string.ascii_letters + string.digits) for _ in range(12)])
-        model_folder = self.project_root / self.user / folder
+        model_path = self.project_root / self.user / folder / MODELGYM_CONFIG["model_file"]
         try:
+            model_folder = model_path.parent
             model_folder.mkdir()
         except FileExistsError:
             logging.warning("Model folder {} is exist !".format(model_folder))
         except FileNotFoundError:
             logging.warning("Model folder {} is missing !".format(model_folder))
-        path = model_folder / MODELGYM_CONFIG["model_file"]
-        with (path).open(mode="w") as file:
+        with (model_path).open(mode="w") as file:
             json.dump(model_info, file, cls=NumpyEncoder)
-        # tag = self.from_project_root_path(path)
-        afs_path = Path(self.user) / folder
+        afs_path = Path(self.user) / folder / MODELGYM_CONFIG["model_file"]
         self.file_service.create_directory(share_name=self.afs_share,
-                                           directory_name=afs_path)
+                                           directory_name=afs_path.parent)
         self.file_service.create_file_from_path(share_name=self.afs_share,
-                                                directory_name=afs_path,
-                                                file_name=MODELGYM_CONFIG["model_file"],
-                                                local_file_path=path)
-        return afs_path / MODELGYM_CONFIG["model_file"]
+                                                directory_name=afs_path.parent,
+                                                file_name=afs_path.name,
+                                                local_file_path=model_path)
+        return afs_path
 
     def send_data(self, data_path):
         """
-        Copy data to the local DATA directory, that must be mounted with Azure FS.
-        (can be replaced by rpc method)
+        Copy data to the AFS DATA directory.
 
-        :param data: <string>. Specify you data path by string.
-        :return: Folder's name.
+        :param data_path: <string>. Specify you data path by string.
+        :return: path in the AFS share.
         """
         checksum = get_data_hash(data_path)[:10]
+        data_folder = time.strftime("%Y-%m-%d-%H.%M") + '-' + checksum
+        afs_path = Path(MODELGYM_CONFIG["data_folder"]) / data_folder / MODELGYM_CONFIG["data_file"]
 
         list_folder = self.file_service.list_directories_and_files(self.afs_share, directory_name="DATA")
         for folder in list_folder:
             if checksum == folder.name[-10:]:
                 logging.info("Folder for data already exist!")
-                return self.from_project_root_path(self.project_root / MODELGYM_CONFIG["data_folder"] / folder.name)
-        time = datetime.datetime.today()
-        # data_folder = self.project_root / MODELGYM_CONFIG["data_folder"] / (time.strftime("%Y-%m-%d-%H.%M") + '-' + checksum)
-        data_folder = time.strftime("%Y-%m-%d-%H.%M") + '-' + checksum
-        afs_path = Path(MODELGYM_CONFIG["data_folder"]) / data_folder
-        self.file_service.create_directory(share_name=self.afs_share, directory_name=afs_path)
+                afs_path = Path("DATA") / folder.name / MODELGYM_CONFIG["data_file"]
+                return afs_path
+        self.file_service.create_directory(share_name=self.afs_share, directory_name=afs_path.parent)
         self.file_service.create_file_from_path(share_name=self.afs_share,
-                                                directory_name=afs_path,
-                                                file_name=MODELGYM_CONFIG["data_file"],
+                                                directory_name=afs_path.parent,
+                                                file_name=afs_path.name,
                                                 local_file_path=data_path)
-        return afs_path / MODELGYM_CONFIG["data_file"]
+        return afs_path
 
     # def upload_data(self, data_path, tag):
     # data_path = str(data_path)
