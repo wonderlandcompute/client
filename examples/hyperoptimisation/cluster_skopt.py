@@ -67,7 +67,7 @@ model_ctb = ModelSpace(CtBClassifier,
                    space_update=False)
 
 
-# In[15]:
+# In[6]:
 
 
 lgbm_space = [Real(low=math.exp(-7), high=1, prior='log-uniform', name='learning_rate'),
@@ -85,7 +85,7 @@ model_lgbm = ModelSpace(LGBMClassifier,
 trainer = GPTrainer(model_ctb)
 
 
-# In[22]:
+# In[7]:
 
 
 best = trainer.crossval_optimize_params(RocAuc(), tmp_file_path, cv=3,
@@ -93,13 +93,13 @@ best = trainer.crossval_optimize_params(RocAuc(), tmp_file_path, cv=3,
                                         verbose=False, workers=1, client=client, timeout=400)
 
 
-# In[26]:
+# In[8]:
 
 
 print(trainer.get_best_results())
 
 
-# In[18]:
+# In[9]:
 
 
 best_model = trainer.get_best_model()
