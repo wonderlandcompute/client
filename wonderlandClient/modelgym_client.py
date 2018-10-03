@@ -3,21 +3,19 @@ from wonderlandClient import (
     Job,
     RequestWithId
 )
-from azure.storage.file import FileService, ContentSettings
+from azure.storage.file import FileService
 from . import wonderland_pb2_grpc
 from . import wonderland_pb2
 
 from hashlib import sha256
 from pathlib import Path
 import yaml
-import datetime
 import random
 import string
 import json
 import grpc
 import logging
 import numpy as np
-import asyncio
 import time
 
 CHUNK_SIZE = 256
@@ -52,15 +50,13 @@ class ModelGymClient:
                 raise TypeError("config must be dictionary!")
 
         project_root = Path(self.config["local_project_root"]).expanduser()
-        if project_root.is_dir():
-            self.project_root = project_root
-            self.project_name = Path(self.project_root.parts[-1])
-        else:
-            raise NotADirectoryError("LOCAL_PROJECT_ROOT folder doesn't exist")
+        self.project_root = project_root
+        self.project_name = Path(self.project_root.parts[-1])
+        if not project_root.is_dir():
+            project_root.mkdir(parents=True, exist_ok=True)
         user_folder = self.project_root / self.config["user"]
-        if user_folder.is_dir():
-            self.user = self.config["user"]
-        else:
+        self.user = self.config["user"]
+        if not user_folder.is_dir():
             user_folder.mkdir(parents=True, exist_ok=True)
 
         # self.stub = new_client()
@@ -83,9 +79,14 @@ class ModelGymClient:
     def check_user(self):
         list_folder = self.file_service.list_directories_and_files(self.afs_share)
         for folder in list_folder:
-            if self.user == folder:
+            if self.user == folder.name:
                 return True
-        self.file_service.create_directory(share_name=self.afs_share, directory_name=self.user, )
+        print(self.afs_share)
+        print(type(self.afs_share))
+        print(self.user)
+        print(type(self.user))
+        self.file_service.create_directory(share_name=self.afs_share, directory_name=self.user)
+        return True
 
     def __get_client_transport_credentials(self, client_cert_path, client_key_path, ca_cert_path):
         client_cert_path = Path(client_cert_path).expanduser()
@@ -118,29 +119,23 @@ class ModelGymClient:
             "data_path": str(data_path)}),
             kind="hyperopt")
         job = self.stub.CreateJob(job)
-        # output_file = self.project_root.parent / model_path / MODELGYM_CONFIG["output_file"]
-        # pickled_model_path = self.project_root.parent / model_path / MODELGYM_CONFIG["model_pickled"]
-        # await self.get_data(output_file, job.id)
-        # with open(output_file, "r") as f:
-        #     output = json.load(f)
-        # await self.get_data(pickled_model_path, job.id)
-        # return {"output": output,
-        #         "model_path": pickled_model_path}
         self.stub.GetJob(RequestWithId(id=job.id))
         return job.id
 
     def gather_results(self, job_id_list, timeout):
         job_compeleted = {job_id: wonderland_pb2.Job.PENDING for job_id in job_id_list}
-        ##add timeout
         deadline = time.time() + timeout
         while True:
             time.sleep(5)
             for id in job_id_list:
                 job = self.stub.GetJob(RequestWithId(id=id))
                 job_compeleted[id] = job.status
-            if time.time() > deadline or not any(s in job_compeleted.values() for s in (wonderland_pb2.Job.PENDING,
+            if not any(s in job_compeleted.values() for s in (wonderland_pb2.Job.PENDING,
                                                               wonderland_pb2.Job.RUNNING,
                                                               wonderland_pb2.Job.PULLED)):
+                break
+            if time.time() > deadline:
+                print("Timeout was expired!")
                 break
 
         results = []
@@ -164,40 +159,6 @@ class ModelGymClient:
                     results[i]['result_model_path'] = self.project_root / path
         return results
 
-    # def make_pipe(self, model_folder, data_folder):
-    #     """
-    #     Create message for Wonderland grpc-server.
-    #       Parameter `data` of wonderland_pb2.Dataset contains part of path on a remote server
-    #     :param model: <string>. Model's folder name.
-    #     :param data:  <string>. Data's folder name.
-    #     :return: wonderland_pb2.Pipeline
-    #     """
-    #     model_path = self.project_root.parents[0] / model_folder
-    #     if not (self.project_root.parents[0] / model_folder).is_dir():
-    #         logging.warning("Model folder {} is missing".format(self.project_root.parents[0] / model_folder))
-    #     # pipeline = wonderland_pb2.Pipeline(git_info=wonderland_pb2.GitUrl())
-    #
-    #     dataset_data = wonderland_pb2.Dataset(type="azureFile",
-    #                                           data=[self.config["azurefs_share"] + '/' + str(data_folder),
-    #                                                 self.config["azurefs_secret"]],
-    #                                           container_mount_endpoint=MODELGYM_CONFIG["mount_data_endpoint"])
-    #     dataset_model = wonderland_pb2.Dataset(type="azureFile",
-    #                                            data=[self.config["azurefs_share"] + '/' + str(model_folder),
-    #                                                  self.config["azurefs_secret"]],
-    #                                            container_mount_endpoint=MODELGYM_CONFIG["mount_model_endpoint"])
-    #     data_path = Path(MODELGYM_CONFIG["mount_data_endpoint"]) / MODELGYM_CONFIG["data_file"]
-    #     model_path = Path(MODELGYM_CONFIG["mount_model_endpoint"]) / MODELGYM_CONFIG["model_file"]
-    #     output_path = Path(MODELGYM_CONFIG["mount_model_endpoint"]) / MODELGYM_CONFIG["output_file"]
-    #     func = wonderland_pb2.Function(docker_image=self.config["docker_image"],
-    #                                    command_to_execute=MODELGYM_CONFIG["command_to_execute"],
-    #                                    execution_parameters=[str(data_path),
-    #                                                          str(model_path),
-    #                                                          str(output_path)],
-    #                                    inputs={"data": dataset_data, "model": dataset_model}
-    #                                    )
-    #
-    #     pipeline.nodes[MODELGYM_CONFIG["single_node_name"]].func.CopyFrom(func)
-    #     return pipeline
 
     def send_model(self, model_info):
         folder = "model-" + ''.join([random.choice(string.ascii_letters + string.digits) for _ in range(12)])
@@ -227,6 +188,7 @@ class ModelGymClient:
         :param data_path: <string>. Specify you data path by string.
         :return: path in the AFS share.
         """
+        logging.info("Sending data to AFS")
         checksum = get_data_hash(data_path)[:10]
         data_folder = time.strftime("%Y-%m-%d-%H.%M") + '-' + checksum
         afs_path = Path(MODELGYM_CONFIG["data_folder"]) / data_folder / MODELGYM_CONFIG["data_file"]
@@ -236,34 +198,15 @@ class ModelGymClient:
             if checksum == folder.name[-10:]:
                 logging.info("Folder for data already exist!")
                 afs_path = Path("DATA") / folder.name / MODELGYM_CONFIG["data_file"]
+                logging.info("Data is in the AFS {}".format(folder.name))
                 return afs_path
         self.file_service.create_directory(share_name=self.afs_share, directory_name=afs_path.parent)
         self.file_service.create_file_from_path(share_name=self.afs_share,
                                                 directory_name=afs_path.parent,
                                                 file_name=afs_path.name,
                                                 local_file_path=data_path)
+        logging.info("Sending is over")
         return afs_path
-
-    # def upload_data(self, data_path, tag):
-    # data_path = str(data_path)
-    # tag = str(tag)
-    # chunks_generator = get_file_chunks(data_path, tag)
-    # response = self.stub.UploadFile(chunks_generator)
-    # # assert response.length == os.path.getsize(data_path)
-    # return response
-
-    # def download_data(self, data_path, tag, launch_id):
-    #     data_path = str(data_path)
-    #     tag = str(tag)
-    #     response = self.stub.GetFile(wonderland_pb2.FileRequest(launch_id=launch_id, file_path=tag))
-    #     save_chunks_to_file(response, data_path)
-
-    # async def get_data(self, path, launch_id):
-    #     tag = self.from_project_root_path(path)
-    #     self.download_data(path, tag, launch_id)
-    #     while not path.exists():
-    #         await asyncio.sleep(5)
-    #     return
 
     def from_project_root_path(self, path):
         path = Path(path)
@@ -308,21 +251,3 @@ def get_data_hash(data_path):
             hasher.update(buf)
             buf = file.read(BLOCKSIZE)
     return hasher.hexdigest()
-
-# def get_file_chunks(path, tag):
-#     message = wonderland_pb2.Chunk()
-#     message.Path = tag
-#     yield message
-#     with open(path, 'rb') as f:
-#         while True:
-#             piece = f.read(CHUNK_SIZE);
-#             if len(piece) == 0:
-#                 return
-#             message.Content = piece
-#             yield message
-#
-#
-# def save_chunks_to_file(chunks, path):
-#     with open(path, 'wb') as f:
-#         for chunk in chunks:
-#             f.write(chunk.Content)

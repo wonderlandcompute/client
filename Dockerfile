@@ -24,9 +24,11 @@ RUN pip install azure-storage-file
 
 #Be sure in wonderclient version
 COPY . /wonderclient
+RUN mkdir ~/.wonder
+COPY config.yaml /root/.wonder/config.yaml
 COPY certs/* /certs/
 RUN pip --no-cache-dir install -e /wonderclient
 
 EXPOSE 8888
 RUN mkdir ~/repo-storage && umask o+w
-ENTRYPOINT jupyter notebook --ip=0.0.0.0 --allow-root
+ENTRYPOINT jupyter notebook --ip=0.0.0.0 --allow-root --notebook-dir="/wonderclient/examples/hyperoptimisation" --NotebookApp.token=''
