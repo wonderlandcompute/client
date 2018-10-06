@@ -81,3 +81,8 @@ def generate_data(file,
                header=','.join([str(x) for x in range(n_features)] + ['y']),
                delimiter=',')
     return dataset
+
+def logbar(current, total):
+    done = int(50.0 * current / total)
+    sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50 - done)))
+    sys.stdout.flush()

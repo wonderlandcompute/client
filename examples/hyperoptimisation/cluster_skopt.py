@@ -40,37 +40,21 @@ for param, val in client.config.items():
 # In[3]:
 
 
-#generated data
-from wonderlandClient import generate_data
-
-gen_data_path = Path("~/repo-storage/test/DATA/temp_data_from_gen_util.csv").expanduser()
-data_folder = gen_data_path.parent
-data_folder.mkdir(parents=True, exist_ok=True)
-xycdataset = generate_data(gen_data_path)
-
-
-# In[4]:
-
-
 #standard sample
 from sklearn.datasets import load_breast_cancer
+import pandas as pd
 
 data = load_breast_cancer()
-y = np.array([data.target])
-dataset = np.concatenate((data.data, y.T), axis=1)
-n_features = len(data.data[0])
-file_breast_cancer = Path("~/repo-storage/test/DATA/breast_cancer.csv").expanduser()
-np.savetxt(file_breast_cancer, dataset,
-           fmt='%.2f',
-           header=','.join([str(x) for x in range(n_features)] + ['y']),
-           delimiter=',')
+y = pd.DataFrame(data=data.target, columns=["y"])                 
+X = pd.DataFrame(data=data.data)
+df = pd.concat([X, y], axis=1)
 
 
 # ## Hyperparamaters range
 # 
 # You don't have to specify all parameters, but then you have to be sure that they have right default values
 
-# In[5]:
+# In[19]:
 
 
 #Catboost model space 
@@ -87,7 +71,7 @@ model_ctb = ModelSpace(CtBClassifier,
                    space_update=False)
 
 
-# In[6]:
+# In[20]:
 
 
 #Lightgbm model space
@@ -105,7 +89,7 @@ model_lgbm = ModelSpace(LGBMClassifier,
                    space_update=False)
 
 
-# In[7]:
+# In[21]:
 
 
 #trainer with optimization algorithm GP
@@ -116,13 +100,13 @@ trainer = GPTrainer(model_lgbm)
 # 
 # 
 
-# In[8]:
+# In[22]:
 
 
 best = trainer.crossval_optimize_params(opt_metric=RocAuc(),          #optimizing metrics 
-                                        dataset=dataset,   #data or path to the data 
+                                        dataset=df,   #data or path to the data 
                                         cv=3, 
-                                        opt_evals=1,        #number of optimization iterations
+                                        opt_evals=5,        #number of optimization iterations
                                         metrics=[RocAuc()], #all calculated metrics
                                         workers=1,          #number of parallel jobs on the same iteration
                                         client=client,      #only for cluster optimization 

@@ -17,6 +17,7 @@ import grpc
 import logging
 import numpy as np
 import time
+from multiprocessing import cpu_count
 
 CHUNK_SIZE = 256
 
@@ -178,7 +179,8 @@ class ModelGymClient:
         self.file_service.create_file_from_path(share_name=self.afs_share,
                                                 directory_name=afs_path.parent,
                                                 file_name=afs_path.name,
-                                                local_file_path=model_path)
+                                                local_file_path=model_path,
+                                                max_connections=cpu_count())
         return afs_path
 
     def send_data(self, data_path):
@@ -204,7 +206,10 @@ class ModelGymClient:
         self.file_service.create_file_from_path(share_name=self.afs_share,
                                                 directory_name=afs_path.parent,
                                                 file_name=afs_path.name,
-                                                local_file_path=data_path)
+                                                local_file_path=data_path,
+                                                max_connections=cpu_count(),
+                                                progress_callback=logbar
+                                                )
         logging.info("Sending is over")
         return afs_path
 
