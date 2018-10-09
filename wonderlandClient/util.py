@@ -4,7 +4,7 @@ import grpc
 import yaml
 from pathlib import Path
 import numpy as np
-from modelgym.utils import XYCDataset
+import sys
 from sklearn.datasets import make_classification
 
 from .wonderland_pb2_grpc import WonderlandStub
@@ -84,5 +84,7 @@ def generate_data(file,
 
 def logbar(current, total):
     done = int(50.0 * current / total)
-    sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50 - done)))
+    sys.stdout.write("\rDownloading [%s%s]" % ('=' * done, ' ' * (50 - done)))
+    if current == total:
+        sys.stdout.write("\n")
     sys.stdout.flush()

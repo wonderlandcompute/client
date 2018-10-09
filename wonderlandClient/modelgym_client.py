@@ -9,6 +9,7 @@ from . import wonderland_pb2
 
 from hashlib import sha256
 from pathlib import Path
+from .util import logbar
 import yaml
 import random
 import string
@@ -18,6 +19,7 @@ import logging
 import numpy as np
 import time
 from multiprocessing import cpu_count
+
 
 CHUNK_SIZE = 256
 
@@ -146,9 +148,10 @@ class ModelGymClient:
                 results += [{}]
             else:
                 results.append(None)
-                continue
-            file_list = json.loads(job.output)
-            for file, path in file_list.items():
+            files = {}
+            if job.output != "":
+                files = json.loads(job.output)
+            for file, path in files.items():
                 self.file_service.get_file_to_path(share_name=self.afs_share,
                                                    directory_name=Path(path).parent,
                                                    file_name=Path(path).name,
@@ -158,6 +161,9 @@ class ModelGymClient:
                         results[i]['output'] = json.load(f)
                 if file == 'result_model_path':
                     results[i]['result_model_path'] = self.project_root / path
+                if file == 'error':
+                    with open(self.project_root / path, "r") as f:
+                        logging.warning(f.read())
         return results
 
 
@@ -183,7 +189,7 @@ class ModelGymClient:
                                                 max_connections=cpu_count())
         return afs_path
 
-    def send_data(self, data_path):
+    def send_data(self, data_path, push_data=False):
         """
         Copy data to the AFS DATA directory.
 
@@ -201,7 +207,11 @@ class ModelGymClient:
                 logging.info("Folder for data already exist!")
                 afs_path = Path("DATA") / folder.name / MODELGYM_CONFIG["data_file"]
                 logging.info("Data is in the AFS {}".format(folder.name))
-                return afs_path
+                if push_data:
+                    logging.warning("Rewriting data")
+                    afs_path = Path(MODELGYM_CONFIG["data_folder"]) / folder.name / MODELGYM_CONFIG["data_file"]
+                else:
+                    return afs_path
         self.file_service.create_directory(share_name=self.afs_share, directory_name=afs_path.parent)
         self.file_service.create_file_from_path(share_name=self.afs_share,
                                                 directory_name=afs_path.parent,

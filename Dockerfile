@@ -1,28 +1,30 @@
 FROM conda/miniconda3
+#prerequirements
 RUN apt-get update \
     && apt-get install -y \
     git-core \
     make
 RUN apt-get install -y libffi-dev g++ libssl-dev
-RUN git clone https://github.com/igormusinov/modelgym \
-    && cd /modelgym && git checkout sync+afs_transfer \
-    && pip --no-cache-dir install -r requirements.txt \
-    && pip --no-cache-dir install -e . 
 RUN pip --no-cache-dir install jupyter \
     && pip --no-cache-dir install google \
     && pip --no-cache-dir install protobuf \
-    && conda install -c conda-forge ipywidgets \
-    && conda install -y tornado==4.5.3
-RUN pip uninstall -y xgboost \
-    && git clone --recursive https://github.com/dmlc/xgboost \
-    && cd xgboost \
-    && git checkout tags/0.47 \
-    && make -j4 \
-    && python python-package/setup.py install 
+    && conda install -c conda-forge ipywidgets
+#RUN pip uninstall -y xgboost \
+#    && git clone --recursive https://github.com/dmlc/xgboost \
+#    && cd xgboost \
+#    && git checkout tags/0.47 \
+#    && make -j4 \
+#    && python python-package/setup.py install
+RUN pip --no-cache-dir install azure-storage-file
 
-RUN pip install azure-storage-file
 
-#Be sure in wonderclient version
+#modelgym installing
+RUN git clone https://github.com/igormusinov/modelgym \
+    && cd /modelgym && git checkout sync+afs_transfer \
+    && pip --no-cache-dir install -r requirements.txt \
+    && pip --no-cache-dir install -e .
+
+#wonderClient installing
 COPY . /wonderclient
 RUN mkdir ~/.wonder
 COPY config.yaml /root/.wonder/config.yaml
