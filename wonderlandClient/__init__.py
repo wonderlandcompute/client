@@ -6,9 +6,9 @@ from .wonderland_pb2 import (
 )
 
 from .wonderland_pb2_grpc import (
-    wonderlandServicer,
-    wonderlandStub,
-    add_wonderlandServicer_to_server
+    WonderlandServicer,
+    WonderlandStub,
+    add_WonderlandServicer_to_server
 )
 
 from .util import (

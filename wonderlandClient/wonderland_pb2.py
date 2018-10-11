@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,7 +18,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='wonderland.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x10wonderland.proto\"\xc9\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x0b.Job.Status\x12\r\n\x05input\x18\x05 \x01(\t\x12\x0e\n\x06output\x18\x06 \x01(\t\x12\x10\n\x08metadata\x18\x07 \x01(\t\"I\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"B\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r\x12\x0f\n\x07project\x18\x02 \x01(\t\x12\x0c\n\x04kind\x18\x03 \x01(\t2\xea\x01\n\nWonderland\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12#\n\tDeleteJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x62\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\x10wonderland.proto\"\xd5\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x0b.Job.Status\x12\r\n\x05input\x18\x05 \x01(\t\x12\x0e\n\x06output\x18\x06 \x01(\t\x12\x10\n\x08metadata\x18\x07 \x01(\t\"U\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\x12\n\n\x06KILLED\x10\x05\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"B\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r\x12\x0f\n\x07project\x18\x02 \x01(\t\x12\x0c\n\x04kind\x18\x03 \x01(\t2\x8d\x02\n\nWonderland\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12#\n\tDeleteJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12!\n\x07KillJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x62\x06proto3')
 )
 
 
@@ -32,29 +32,33 @@ _JOB_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='PENDING', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PULLED', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='RUNNING', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAILED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='COMPLETED', index=4, number=4,
-      options=None,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='KILLED', index=5, number=5,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=149,
-  serialized_end=222,
+  serialized_end=234,
 )
 _sym_db.RegisterEnumDescriptor(_JOB_STATUS)
 
@@ -72,49 +76,49 @@ _JOB = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='id', full_name='Job.id', index=1,
       number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='kind', full_name='Job.kind', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='status', full_name='Job.status', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='input', full_name='Job.input', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='output', full_name='Job.output', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='metadata', full_name='Job.metadata', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -122,14 +126,14 @@ _JOB = _descriptor.Descriptor(
   enum_types=[
     _JOB_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
   serialized_start=21,
-  serialized_end=222,
+  serialized_end=234,
 )
 
 
@@ -146,21 +150,21 @@ _LISTOFJOBS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=224,
-  serialized_end=256,
+  serialized_start=236,
+  serialized_end=268,
 )
 
 
@@ -177,21 +181,21 @@ _REQUESTWITHID = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=258,
-  serialized_end=285,
+  serialized_start=270,
+  serialized_end=297,
 )
 
 
@@ -208,35 +212,35 @@ _LISTJOBSREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='project', full_name='ListJobsRequest.project', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='kind', full_name='ListJobsRequest.kind', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=287,
-  serialized_end=353,
+  serialized_start=299,
+  serialized_end=365,
 )
 
 _JOB.fields_by_name['status'].enum_type = _JOB_STATUS
@@ -250,310 +254,109 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Job = _reflection.GeneratedProtocolMessageType('Job', (_message.Message,), dict(
   DESCRIPTOR = _JOB,
-  __module__ = 'Wonderland_pb2'
+  __module__ = 'wonderland_pb2'
   # @@protoc_insertion_point(class_scope:Job)
   ))
 _sym_db.RegisterMessage(Job)
 
 ListOfJobs = _reflection.GeneratedProtocolMessageType('ListOfJobs', (_message.Message,), dict(
   DESCRIPTOR = _LISTOFJOBS,
-  __module__ = 'Wonderland_pb2'
+  __module__ = 'wonderland_pb2'
   # @@protoc_insertion_point(class_scope:ListOfJobs)
   ))
 _sym_db.RegisterMessage(ListOfJobs)
 
 RequestWithId = _reflection.GeneratedProtocolMessageType('RequestWithId', (_message.Message,), dict(
   DESCRIPTOR = _REQUESTWITHID,
-  __module__ = 'Wonderland_pb2'
+  __module__ = 'wonderland_pb2'
   # @@protoc_insertion_point(class_scope:RequestWithId)
   ))
 _sym_db.RegisterMessage(RequestWithId)
 
 ListJobsRequest = _reflection.GeneratedProtocolMessageType('ListJobsRequest', (_message.Message,), dict(
   DESCRIPTOR = _LISTJOBSREQUEST,
-  __module__ = 'Wonderland_pb2'
+  __module__ = 'wonderland_pb2'
   # @@protoc_insertion_point(class_scope:ListJobsRequest)
   ))
 _sym_db.RegisterMessage(ListJobsRequest)
 
 
-try:
-  # THESE ELEMENTS WILL BE DEPRECATED.
-  # Please use the generated *_pb2_grpc.py files instead.
-  import grpc
-  from grpc.beta import implementations as beta_implementations
-  from grpc.beta import interfaces as beta_interfaces
-  from grpc.framework.common import cardinality
-  from grpc.framework.interfaces.face import utilities as face_utilities
 
+_WONDERLAND = _descriptor.ServiceDescriptor(
+  name='Wonderland',
+  full_name='Wonderland',
+  file=DESCRIPTOR,
+  index=0,
+  serialized_options=None,
+  serialized_start=368,
+  serialized_end=637,
+  methods=[
+  _descriptor.MethodDescriptor(
+    name='CreateJob',
+    full_name='Wonderland.CreateJob',
+    index=0,
+    containing_service=None,
+    input_type=_JOB,
+    output_type=_JOB,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetJob',
+    full_name='Wonderland.GetJob',
+    index=1,
+    containing_service=None,
+    input_type=_REQUESTWITHID,
+    output_type=_JOB,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ListJobs',
+    full_name='Wonderland.ListJobs',
+    index=2,
+    containing_service=None,
+    input_type=_LISTJOBSREQUEST,
+    output_type=_LISTOFJOBS,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='ModifyJob',
+    full_name='Wonderland.ModifyJob',
+    index=3,
+    containing_service=None,
+    input_type=_JOB,
+    output_type=_JOB,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='PullPendingJobs',
+    full_name='Wonderland.PullPendingJobs',
+    index=4,
+    containing_service=None,
+    input_type=_LISTJOBSREQUEST,
+    output_type=_LISTOFJOBS,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='DeleteJob',
+    full_name='Wonderland.DeleteJob',
+    index=5,
+    containing_service=None,
+    input_type=_REQUESTWITHID,
+    output_type=_JOB,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='KillJob',
+    full_name='Wonderland.KillJob',
+    index=6,
+    containing_service=None,
+    input_type=_REQUESTWITHID,
+    output_type=_JOB,
+    serialized_options=None,
+  ),
+])
+_sym_db.RegisterServiceDescriptor(_WONDERLAND)
 
-  class WonderlandStub(object):
-    # missing associated documentation comment in .proto file
-    pass
+DESCRIPTOR.services_by_name['Wonderland'] = _WONDERLAND
 
-    def __init__(self, channel):
-      """Constructor.
-
-      Args:
-        channel: A grpc.Channel.
-      """
-      self.CreateJob = channel.unary_unary(
-          '/Wonderland/CreateJob',
-          request_serializer=Job.SerializeToString,
-          response_deserializer=Job.FromString,
-          )
-      self.GetJob = channel.unary_unary(
-          '/Wonderland/GetJob',
-          request_serializer=RequestWithId.SerializeToString,
-          response_deserializer=Job.FromString,
-          )
-      self.ListJobs = channel.unary_unary(
-          '/Wonderland/ListJobs',
-          request_serializer=ListJobsRequest.SerializeToString,
-          response_deserializer=ListOfJobs.FromString,
-          )
-      self.ModifyJob = channel.unary_unary(
-          '/Wonderland/ModifyJob',
-          request_serializer=Job.SerializeToString,
-          response_deserializer=Job.FromString,
-          )
-      self.PullPendingJobs = channel.unary_unary(
-          '/Wonderland/PullPendingJobs',
-          request_serializer=ListJobsRequest.SerializeToString,
-          response_deserializer=ListOfJobs.FromString,
-          )
-      self.DeleteJob = channel.unary_unary(
-          '/Wonderland/DeleteJob',
-          request_serializer=RequestWithId.SerializeToString,
-          response_deserializer=Job.FromString,
-          )
-
-
-  class WonderlandServicer(object):
-    # missing associated documentation comment in .proto file
-    pass
-
-    def CreateJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def GetJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def ListJobs(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def ModifyJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def PullPendingJobs(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def DeleteJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-
-  def add_WonderlandServicer_to_server(servicer, server):
-    rpc_method_handlers = {
-        'CreateJob': grpc.unary_unary_rpc_method_handler(
-            servicer.CreateJob,
-            request_deserializer=Job.FromString,
-            response_serializer=Job.SerializeToString,
-        ),
-        'GetJob': grpc.unary_unary_rpc_method_handler(
-            servicer.GetJob,
-            request_deserializer=RequestWithId.FromString,
-            response_serializer=Job.SerializeToString,
-        ),
-        'ListJobs': grpc.unary_unary_rpc_method_handler(
-            servicer.ListJobs,
-            request_deserializer=ListJobsRequest.FromString,
-            response_serializer=ListOfJobs.SerializeToString,
-        ),
-        'ModifyJob': grpc.unary_unary_rpc_method_handler(
-            servicer.ModifyJob,
-            request_deserializer=Job.FromString,
-            response_serializer=Job.SerializeToString,
-        ),
-        'PullPendingJobs': grpc.unary_unary_rpc_method_handler(
-            servicer.PullPendingJobs,
-            request_deserializer=ListJobsRequest.FromString,
-            response_serializer=ListOfJobs.SerializeToString,
-        ),
-        'DeleteJob': grpc.unary_unary_rpc_method_handler(
-            servicer.DeleteJob,
-            request_deserializer=RequestWithId.FromString,
-            response_serializer=Job.SerializeToString,
-        ),
-    }
-    generic_handler = grpc.method_handlers_generic_handler(
-        'Wonderland', rpc_method_handlers)
-    server.add_generic_rpc_handlers((generic_handler,))
-
-
-  class BetaWonderlandServicer(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    # missing associated documentation comment in .proto file
-    pass
-    def CreateJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def GetJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def ListJobs(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def ModifyJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def PullPendingJobs(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def DeleteJob(self, request, context):
-      # missing associated documentation comment in .proto file
-      pass
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-
-
-  class BetaWonderlandStub(object):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This class was generated
-    only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
-    # missing associated documentation comment in .proto file
-    pass
-    def CreateJob(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    CreateJob.future = None
-    def GetJob(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    GetJob.future = None
-    def ListJobs(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    ListJobs.future = None
-    def ModifyJob(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    ModifyJob.future = None
-    def PullPendingJobs(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    PullPendingJobs.future = None
-    def DeleteJob(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      # missing associated documentation comment in .proto file
-      pass
-      raise NotImplementedError()
-    DeleteJob.future = None
-
-
-  def beta_create_Wonderland_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_deserializers = {
-      ('Wonderland', 'CreateJob'): Job.FromString,
-      ('Wonderland', 'DeleteJob'): RequestWithId.FromString,
-      ('Wonderland', 'GetJob'): RequestWithId.FromString,
-      ('Wonderland', 'ListJobs'): ListJobsRequest.FromString,
-      ('Wonderland', 'ModifyJob'): Job.FromString,
-      ('Wonderland', 'PullPendingJobs'): ListJobsRequest.FromString,
-    }
-    response_serializers = {
-      ('Wonderland', 'CreateJob'): Job.SerializeToString,
-      ('Wonderland', 'DeleteJob'): Job.SerializeToString,
-      ('Wonderland', 'GetJob'): Job.SerializeToString,
-      ('Wonderland', 'ListJobs'): ListOfJobs.SerializeToString,
-      ('Wonderland', 'ModifyJob'): Job.SerializeToString,
-      ('Wonderland', 'PullPendingJobs'): ListOfJobs.SerializeToString,
-    }
-    method_implementations = {
-      ('Wonderland', 'CreateJob'): face_utilities.unary_unary_inline(servicer.CreateJob),
-      ('Wonderland', 'DeleteJob'): face_utilities.unary_unary_inline(servicer.DeleteJob),
-      ('Wonderland', 'GetJob'): face_utilities.unary_unary_inline(servicer.GetJob),
-      ('Wonderland', 'ListJobs'): face_utilities.unary_unary_inline(servicer.ListJobs),
-      ('Wonderland', 'ModifyJob'): face_utilities.unary_unary_inline(servicer.ModifyJob),
-      ('Wonderland', 'PullPendingJobs'): face_utilities.unary_unary_inline(servicer.PullPendingJobs),
-    }
-    server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
-    return beta_implementations.server(method_implementations, options=server_options)
-
-
-  def beta_create_Wonderland_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
-    """The Beta API is deprecated for 0.15.0 and later.
-
-    It is recommended to use the GA API (classes and functions in this
-    file not marked beta) for all further purposes. This function was
-    generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
-    request_serializers = {
-      ('Wonderland', 'CreateJob'): Job.SerializeToString,
-      ('Wonderland', 'DeleteJob'): RequestWithId.SerializeToString,
-      ('Wonderland', 'GetJob'): RequestWithId.SerializeToString,
-      ('Wonderland', 'ListJobs'): ListJobsRequest.SerializeToString,
-      ('Wonderland', 'ModifyJob'): Job.SerializeToString,
-      ('Wonderland', 'PullPendingJobs'): ListJobsRequest.SerializeToString,
-    }
-    response_deserializers = {
-      ('Wonderland', 'CreateJob'): Job.FromString,
-      ('Wonderland', 'DeleteJob'): Job.FromString,
-      ('Wonderland', 'GetJob'): Job.FromString,
-      ('Wonderland', 'ListJobs'): ListOfJobs.FromString,
-      ('Wonderland', 'ModifyJob'): Job.FromString,
-      ('Wonderland', 'PullPendingJobs'): ListOfJobs.FromString,
-    }
-    cardinalities = {
-      'CreateJob': cardinality.Cardinality.UNARY_UNARY,
-      'DeleteJob': cardinality.Cardinality.UNARY_UNARY,
-      'GetJob': cardinality.Cardinality.UNARY_UNARY,
-      'ListJobs': cardinality.Cardinality.UNARY_UNARY,
-      'ModifyJob': cardinality.Cardinality.UNARY_UNARY,
-      'PullPendingJobs': cardinality.Cardinality.UNARY_UNARY,
-    }
-    stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'Wonderland', cardinalities, options=stub_options)
-except ImportError:
-  pass
 # @@protoc_insertion_point(module_scope)
