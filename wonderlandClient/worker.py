@@ -1,8 +1,8 @@
 from multiprocessing import Process, Event
 from time import sleep
 
-from . import Job, ListJobsRequest, new_client
-
+from .util import new_client
+from .wonderland_pb2 import Job, ListJobsRequest
 
 class WorkerProcess:
     def __init__(self, job, job_func, args_list):

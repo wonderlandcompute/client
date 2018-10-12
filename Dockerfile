@@ -20,7 +20,7 @@ RUN pip --no-cache-dir install azure-storage-file
 
 #modelgym installing
 RUN git clone https://github.com/igormusinov/modelgym \
-    && cd /modelgym && git checkout sync+afs_transfer \
+    && cd /modelgym && git checkout ${MODELGYM_COMMIT} \
     && pip --no-cache-dir install -r requirements.txt \
     && pip --no-cache-dir install -e .
 

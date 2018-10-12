@@ -1,24 +1,24 @@
-from wonderlandClient import (
-    new_client,
-    Job,
-    RequestWithId
-)
-from azure.storage.file import FileService
-from . import wonderland_pb2_grpc
-from . import wonderland_pb2
-
-from hashlib import sha256
-from pathlib import Path
-from .util import logbar
 import yaml
 import random
 import string
 import json
-import grpc
-import logging
-import numpy as np
 import time
+import logging
 from multiprocessing import cpu_count
+from hashlib import sha256
+from pathlib import Path
+
+import grpc
+import numpy as np
+from azure.storage.file import FileService
+
+# from wonderlandClient.util import new_client
+from .wonderland_pb2 import Job, RequestWithId
+from .util import logbar
+from . import wonderland_pb2_grpc
+
+
+
 
 
 CHUNK_SIZE = 256
@@ -126,16 +126,16 @@ class ModelGymClient:
         return job.id
 
     def gather_results(self, job_id_list, timeout):
-        job_compeleted = {job_id: wonderland_pb2.Job.PENDING for job_id in job_id_list}
+        job_compeleted = {job_id: Job.PENDING for job_id in job_id_list}
         deadline = time.time() + timeout
         while True:
             time.sleep(5)
             for id in job_id_list:
                 job = self.stub.GetJob(RequestWithId(id=id))
                 job_compeleted[id] = job.status
-            if not any(s in job_compeleted.values() for s in (wonderland_pb2.Job.PENDING,
-                                                              wonderland_pb2.Job.RUNNING,
-                                                              wonderland_pb2.Job.PULLED)):
+            if not any(s in job_compeleted.values() for s in (Job.PENDING,
+                                                              Job.RUNNING,
+                                                              Job.PULLED)):
                 break
             if time.time() > deadline:
                 print("Timeout was expired!")
@@ -144,7 +144,7 @@ class ModelGymClient:
         results = []
         for i, id in enumerate(job_id_list):
             job = self.stub.GetJob(RequestWithId(id=id))
-            if job.status == wonderland_pb2.Job.COMPLETED:
+            if job.status == Job.COMPLETED:
                 results += [{}]
             else:
                 results.append(None)
