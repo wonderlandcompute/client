@@ -1,24 +1,18 @@
-import yaml
+import yaml, json
 import random
 import string
-import json
 import time
 import logging
 from multiprocessing import cpu_count
-from hashlib import sha256
 from pathlib import Path
 
 import grpc
-import numpy as np
 from azure.storage.file import FileService
 
 # from wonderlandClient.util import new_client
 from .wonderland_pb2 import Job, RequestWithId
-from .util import logbar
+from .util import logbar, get_data_hash, NumpyEncoder
 from . import wonderland_pb2_grpc
-
-
-
 
 
 CHUNK_SIZE = 256
@@ -84,10 +78,6 @@ class ModelGymClient:
         for folder in list_folder:
             if self.user == folder.name:
                 return True
-        print(self.afs_share)
-        print(type(self.afs_share))
-        print(self.user)
-        print(type(self.user))
         self.file_service.create_directory(share_name=self.afs_share, directory_name=self.user)
         return True
 
@@ -234,35 +224,4 @@ class ModelGymClient:
             logging.warning("Path doesn't have project_root folder {}".format(self.project_root))
 
 
-class NumpyEncoder(json.JSONEncoder):
-    """ Special json encoder for numpy types """
 
-    def default(self, obj):
-        if isinstance(obj, (np.int_, np.intc, np.intp, np.int8,
-                            np.int16, np.int32, np.int64, np.uint8,
-                            np.uint16, np.uint32, np.uint64)):
-            return int(obj)
-        elif isinstance(obj, (np.float_, np.float16, np.float32,
-                              np.float64)):
-            return float(obj)
-        elif isinstance(obj, (np.ndarray,)):  #### This is the fix
-            return obj.tolist()
-        return json.JSONEncoder.default(self, obj)
-
-
-def get_data_hash(data_path):
-    """
-    Calculate sha-256 hash of data file
-
-    :param data_path: <string>, data's path
-    :return: <string>
-    """
-    data_path = str(data_path)
-    BLOCKSIZE = 65536
-    hasher = sha256()
-    with open(data_path, 'rb') as file:
-        buf = file.read(BLOCKSIZE)
-        while len(buf) > 0:
-            hasher.update(buf)
-            buf = file.read(BLOCKSIZE)
-    return hasher.hexdigest()
