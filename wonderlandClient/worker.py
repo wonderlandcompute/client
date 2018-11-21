@@ -5,6 +5,7 @@ from . import Job, ListJobsRequest, new_client
 
 
 class WorkerProcess:
+
     def __init__(self, job, job_func, args_list):
         self._finished = Event()
 
@@ -21,8 +22,13 @@ class WorkerProcess:
     def finished(self):
         return self._finished.is_set()
 
+    def kill(self):
+        self.work_process.terminate()
+        self._finished.set()
+
 
 class Worker(object):
+
     def __init__(
             self,
             stub,
@@ -33,7 +39,6 @@ class Worker(object):
         self.job_kind = job_kind
         self.sleep_time = sleep_time
         self.do_job = job_func
-
         self.cpu_avail = threads_num
         self.cpus_per_job = {}  # job_id -> needed_cpus
         self.processes = []
@@ -63,7 +68,11 @@ class Worker(object):
 
     def cleanup_processes(self):
         processes_snapshot = self.processes[:]
+        killed_id = self.get_killed_id()
         for p in processes_snapshot:
+            if p.job.id in killed_id:
+                p.kill()
+                print("Job:{} is killed".format(p.job.id))
             if p.finished:
                 self.processes.remove(p)
                 self.release_cpus(p.job.id)
@@ -77,6 +86,12 @@ class Worker(object):
         self.cpu_avail += self.cpus_per_job[job_id]
         self.cpus_per_job.pop(job_id, None)
         print("Released cpu, available: {}".format(self.cpu_avail))
+
+    def get_killed_id(self):
+        stub = new_client()
+        killed = [job.id for job in stub.ListJobs(ListJobsRequest(
+            kind=self.job_kind)).jobs if job.status == Job.KILLED]
+        return killed
 
     def run(self):
         while True:
