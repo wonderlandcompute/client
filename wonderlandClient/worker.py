@@ -1,7 +1,7 @@
 from multiprocessing import Process, Event
 from time import sleep
 
-from . import Job, ListJobsRequest, new_client
+from . import Job, ListJobsRequest, new_client, RequestWithId
 
 
 class WorkerProcess:
@@ -67,10 +67,10 @@ class Worker(object):
         sleep(self.sleep_time)
 
     def cleanup_processes(self):
+        stub = new_client()
         processes_snapshot = self.processes[:]
-        killed_id = self.get_killed_id()
         for p in processes_snapshot:
-            if p.job.id in killed_id:
+            if stub.GetJob(RequestWithId(id=p.job.id)).status == Job.KILLED:
                 p.kill()
                 print("Job:{} is killed".format(p.job.id))
             if p.finished:
@@ -86,12 +86,6 @@ class Worker(object):
         self.cpu_avail += self.cpus_per_job[job_id]
         self.cpus_per_job.pop(job_id, None)
         print("Released cpu, available: {}".format(self.cpu_avail))
-
-    def get_killed_id(self):
-        stub = new_client()
-        killed = [job.id for job in stub.ListJobs(ListJobsRequest(
-            kind=self.job_kind)).jobs if job.status == Job.KILLED]
-        return killed
 
     def run(self):
         while True:
