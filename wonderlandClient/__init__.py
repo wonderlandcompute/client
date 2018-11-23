@@ -17,6 +17,6 @@ from .util import (
     check_jobs_equal
 )
 
-from .worker import Worker
+#from .worker import Worker
 
 __version__ = "0.1"
