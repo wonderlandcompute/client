@@ -17,6 +17,6 @@ from .util import (
     check_jobs_equal
 )
 
-#from .worker import Worker
+from wonderlandClient.modelgym_client import ModelGymClient
 
-__version__ = "0.1"
+__version__ = "0.2"

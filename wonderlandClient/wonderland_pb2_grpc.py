@@ -10,7 +10,6 @@ class WonderlandStub(object):
 
     def __init__(self, channel):
         """Constructor.
-
         Args:
           channel: A grpc.Channel.
         """
@@ -146,3 +145,4 @@ def add_WonderlandServicer_to_server(servicer, server):
     generic_handler = grpc.method_handlers_generic_handler(
         'Wonderland', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
+
