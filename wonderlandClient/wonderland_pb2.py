@@ -7,7 +7,6 @@ from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from google.protobuf import reflection as _reflection
 from google.protobuf import symbol_database as _symbol_database
-from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 _sym_db = _symbol_database.Default()
@@ -19,7 +18,8 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='wonderland.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\x10wonderland.proto\"\xc9\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x0b.Job.Status\x12\r\n\x05input\x18\x05 \x01(\t\x12\x0e\n\x06output\x18\x06 \x01(\t\x12\x10\n\x08metadata\x18\x07 \x01(\t\"I\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"B\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r\x12\x0f\n\x07project\x18\x02 \x01(\t\x12\x0c\n\x04kind\x18\x03 \x01(\t2\xea\x01\n\nWonderland\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12#\n\tDeleteJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x62\x06proto3')
+  serialized_options=None,
+  serialized_pb=_b('\n\x10wonderland.proto\"\xd5\x01\n\x03Job\x12\x0f\n\x07project\x18\x01 \x01(\t\x12\n\n\x02id\x18\x02 \x01(\x04\x12\x0c\n\x04kind\x18\x03 \x01(\t\x12\x1b\n\x06status\x18\x04 \x01(\x0e\x32\x0b.Job.Status\x12\r\n\x05input\x18\x05 \x01(\t\x12\x0e\n\x06output\x18\x06 \x01(\t\x12\x10\n\x08metadata\x18\x07 \x01(\t\"U\n\x06Status\x12\x0b\n\x07PENDING\x10\x00\x12\n\n\x06PULLED\x10\x01\x12\x0b\n\x07RUNNING\x10\x02\x12\n\n\x06\x46\x41ILED\x10\x03\x12\r\n\tCOMPLETED\x10\x04\x12\n\n\x06KILLED\x10\x05\" \n\nListOfJobs\x12\x12\n\x04jobs\x18\x01 \x03(\x0b\x32\x04.Job\"\x1b\n\rRequestWithId\x12\n\n\x02id\x18\x01 \x01(\x04\"B\n\x0fListJobsRequest\x12\x10\n\x08how_many\x18\x01 \x01(\r\x12\x0f\n\x07project\x18\x02 \x01(\t\x12\x0c\n\x04kind\x18\x03 \x01(\t2\x8d\x02\n\nWonderland\x12\x19\n\tCreateJob\x12\x04.Job\x1a\x04.Job\"\x00\x12 \n\x06GetJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12+\n\x08ListJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12\x19\n\tModifyJob\x12\x04.Job\x1a\x04.Job\"\x00\x12\x32\n\x0fPullPendingJobs\x12\x10.ListJobsRequest\x1a\x0b.ListOfJobs\"\x00\x12#\n\tDeleteJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x12!\n\x07KillJob\x12\x0e.RequestWithId\x1a\x04.Job\"\x00\x62\x06proto3')
 )
 
 
@@ -32,29 +32,33 @@ _JOB_STATUS = _descriptor.EnumDescriptor(
   values=[
     _descriptor.EnumValueDescriptor(
       name='PENDING', index=0, number=0,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='PULLED', index=1, number=1,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='RUNNING', index=2, number=2,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='FAILED', index=3, number=3,
-      options=None,
+      serialized_options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
       name='COMPLETED', index=4, number=4,
-      options=None,
+      serialized_options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='KILLED', index=5, number=5,
+      serialized_options=None,
       type=None),
   ],
   containing_type=None,
-  options=None,
+  serialized_options=None,
   serialized_start=149,
-  serialized_end=222,
+  serialized_end=234,
 )
 _sym_db.RegisterEnumDescriptor(_JOB_STATUS)
 
@@ -72,49 +76,49 @@ _JOB = _descriptor.Descriptor(
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='id', full_name='Job.id', index=1,
       number=2, type=4, cpp_type=4, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='kind', full_name='Job.kind', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='status', full_name='Job.status', index=3,
       number=4, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='input', full_name='Job.input', index=4,
       number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='output', full_name='Job.output', index=5,
       number=6, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='metadata', full_name='Job.metadata', index=6,
       number=7, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
@@ -122,14 +126,14 @@ _JOB = _descriptor.Descriptor(
   enum_types=[
     _JOB_STATUS,
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
   serialized_start=21,
-  serialized_end=222,
+  serialized_end=234,
 )
 
 
@@ -146,21 +150,21 @@ _LISTOFJOBS = _descriptor.Descriptor(
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=224,
-  serialized_end=256,
+  serialized_start=236,
+  serialized_end=268,
 )
 
 
@@ -177,21 +181,21 @@ _REQUESTWITHID = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=258,
-  serialized_end=285,
+  serialized_start=270,
+  serialized_end=297,
 )
 
 
@@ -208,35 +212,35 @@ _LISTJOBSREQUEST = _descriptor.Descriptor(
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='project', full_name='ListJobsRequest.project', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='kind', full_name='ListJobsRequest.kind', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
-      options=None),
+      serialized_options=None, file=DESCRIPTOR),
   ],
   extensions=[
   ],
   nested_types=[],
   enum_types=[
   ],
-  options=None,
+  serialized_options=None,
   is_extendable=False,
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=287,
-  serialized_end=353,
+  serialized_start=299,
+  serialized_end=365,
 )
 
 _JOB.fields_by_name['status'].enum_type = _JOB_STATUS
@@ -283,9 +287,9 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
   full_name='Wonderland',
   file=DESCRIPTOR,
   index=0,
-  options=None,
-  serialized_start=356,
-  serialized_end=590,
+  serialized_options=None,
+  serialized_start=368,
+  serialized_end=637,
   methods=[
   _descriptor.MethodDescriptor(
     name='CreateJob',
@@ -294,7 +298,7 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_JOB,
     output_type=_JOB,
-    options=None,
+    serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='GetJob',
@@ -303,7 +307,7 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_REQUESTWITHID,
     output_type=_JOB,
-    options=None,
+    serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='ListJobs',
@@ -312,7 +316,7 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_LISTJOBSREQUEST,
     output_type=_LISTOFJOBS,
-    options=None,
+    serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='ModifyJob',
@@ -321,7 +325,7 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_JOB,
     output_type=_JOB,
-    options=None,
+    serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='PullPendingJobs',
@@ -330,7 +334,7 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_LISTJOBSREQUEST,
     output_type=_LISTOFJOBS,
-    options=None,
+    serialized_options=None,
   ),
   _descriptor.MethodDescriptor(
     name='DeleteJob',
@@ -339,7 +343,16 @@ _WONDERLAND = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_REQUESTWITHID,
     output_type=_JOB,
-    options=None,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='KillJob',
+    full_name='Wonderland.KillJob',
+    index=6,
+    containing_service=None,
+    input_type=_REQUESTWITHID,
+    output_type=_JOB,
+    serialized_options=None,
   ),
 ])
 _sym_db.RegisterServiceDescriptor(_WONDERLAND)
@@ -347,3 +360,4 @@ _sym_db.RegisterServiceDescriptor(_WONDERLAND)
 DESCRIPTOR.services_by_name['Wonderland'] = _WONDERLAND
 
 # @@protoc_insertion_point(module_scope)
+
